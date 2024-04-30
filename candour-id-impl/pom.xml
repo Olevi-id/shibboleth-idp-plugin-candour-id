@@ -39,6 +39,11 @@
       <artifactId>jakarta.servlet-api</artifactId>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <scope>provided</scope>
+    </dependency>
     <!-- test dependencies -->
     <dependency>
       <groupId>org.testng</groupId>
