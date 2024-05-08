@@ -16,8 +16,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class CandourInvitationRequestPayload {
 
-    /** Duration for the session to be valid. */
-    private Duration invitationValidity;
+    /** Duration for the session to be valid. Defaults to 10 minutes.*/
+    private Duration invitationValidity = Duration.ofMinutes(10);
     /** How many verification tries User is allowed to have. Defaults to 5. */
     private int tries = 5;
     /** redirect callback url. */
