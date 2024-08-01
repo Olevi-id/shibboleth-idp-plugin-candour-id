@@ -16,7 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class CandourInvitationRequestPayload {
 
-    /** Duration for the session to be valid. Defaults to 10 minutes.*/
+    /** Duration for the session to be valid. Defaults to 10 minutes. */
     private Duration invitationValidity = Duration.ofMinutes(10);
     /** How many verification tries User is allowed to have. Defaults to 5. */
     private int tries = 5;
@@ -31,7 +31,7 @@ public class CandourInvitationRequestPayload {
     /** Expected result claims and used matchers. */
     private ResultProperties resultProperties = new ResultProperties();
     /** Data for matching a user with resultProperties matchers. */
-    private Users users = new Users();
+    private User user = new User();
     /** Data for matching a user. */
     private EnforceValues enforceValues = new EnforceValues();
 
@@ -152,8 +152,8 @@ public class CandourInvitationRequestPayload {
      * 
      * @return data for matching a user with resultProperties matchers.
      */
-    public Users getUsers() {
-        return users;
+    public User getUser() {
+        return user;
     }
 
     /**
@@ -291,10 +291,10 @@ public class CandourInvitationRequestPayload {
     /**
      * Class implementing fields for expected result claims and used matchers.
      */
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     public class ResultProperties {
-        /** Whether name data is returned. True by default. */
-        private boolean name = true;
+        /** Whether name data is returned. */
+        private boolean name;
         /** Whether expected name matching is used. */
         private boolean nameMatch;
         /** Whether expected name matching is used and what is the match score. */
@@ -620,8 +620,8 @@ public class CandourInvitationRequestPayload {
     /**
      * Class implementing fields that are input for user matchers.
      */
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    public class Users {
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+    public class User {
 
         /** First name. */
         private String firstName;
@@ -641,6 +641,8 @@ public class CandourInvitationRequestPayload {
         private String nationality;
         /** Custom identifier for the user. */
         private String identifier;
+        /** User sex, ‘M’ or ‘F’. */
+        private String sex;
 
         /**
          * Get first name.
@@ -803,17 +805,49 @@ public class CandourInvitationRequestPayload {
         public void setIdentifier(String id) {
             identifier = id;
         }
+
+        /**
+         * Get user sex, ‘M’ or ‘F’.
+         * 
+         * @return User sex, ‘M’ or ‘F’
+         */
+        public String getSex() {
+            return sex;
+        }
+
+        /**
+         * Set user sex, ‘M’ or ‘F’..
+         * 
+         * @param sexId User sex, ‘M’ or ‘F’
+         */
+        public void setSex(String sexId) {
+            sex = sexId;
+        }
     }
 
     /**
      * Class implementing fields that indicate which matchers must match.
      */
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     public class EnforceValues {
         /** Whether expected date of birth matching is enforced. */
         private boolean dateOfBirth;
-        /** Whether Identity document number in id matching is enforced. */
+        /** Whether identity document number in id matching is enforced. */
         private boolean idNumber;
+        /** Whether national identification number in id matching is enforced. */
+        private boolean nationalIdentificationNumber;
+        /** Whether document expiration date in id matching is enforced. */
+        private boolean expirationDate;
+        /** Whether document issuing country in id matching is enforced. */
+        private boolean issuingCountry;
+        /** Whether user nationality in id matching is enforced. */
+        private boolean nationality;
+        /** Whether user sex id matching is enforced. */
+        private boolean sex;
+        /**
+         * Number between 1-100, a threshold that name score must be equal or higher.
+         */
+        private int nameScore = 0;
 
         /**
          * Whether expected date of birth matching is enforced.
@@ -834,21 +868,115 @@ public class CandourInvitationRequestPayload {
         }
 
         /**
-         * Whether Identity document number in id matching is enforced.
+         * Whether identity document number in id matching is enforced.
          * 
-         * @return Whether Identity document number in id matching is enforced
+         * @return Whether identity document number in id matching is enforced
          */
         public boolean isIdNumber() {
             return idNumber;
         }
 
         /**
-         * Set whether Identity document number in id matching is enforced.
+         * Set whether identity document number in id matching is enforced.
          * 
-         * @param isEnforced Whether Identity document number in id matching is enforced
+         * @param isEnforced Whether identity document number in id matching is enforced
          */
         public void setIdNumber(boolean isEnforced) {
             idNumber = isEnforced;
+        }
+
+        /**
+         * Whether national identification number in id matching is enforced.
+         * 
+         * @return Whether national identification number in id matching is enforced.
+         */
+        public boolean isNationalIdentificationNumber() {
+            return nationalIdentificationNumber;
+        }
+
+        /**
+         * Set whether national identification number in id matching is enforced.
+         * 
+         * @param isEnforced Whether national identification number in id matching is
+         *                   enforced
+         */
+        public void setNationalIdentificationNumber(boolean isEnforced) {
+            nationalIdentificationNumber = isEnforced;
+        }
+
+        /**
+         * Whether document expiration date in id matching is enforced.
+         * 
+         * @return Whether document expiration date in id matching is enforced
+         */
+        public boolean isExpirationDate() {
+            return expirationDate;
+        }
+
+        /**
+         * Set whether document expiration date in id matching is enforced.
+         * 
+         * @param isEnforced Whether document expiration date in id matching is enforced
+         */
+        public void setExpirationDate(boolean isEnforced) {
+            expirationDate = isEnforced;
+        }
+
+        /**
+         * Whether document issuing country in id matching is enforced.
+         * 
+         * @return Whether document issuing country in id matching is enforced.
+         */
+        public boolean isIssuingCountry() {
+            return issuingCountry;
+        }
+
+        /**
+         * Set whether document issuing country in id matching is enforced.
+         * 
+         * @param isEnforced Whether document issuing country in id matching is enforced
+         */
+        public void setIssuingCountry(boolean isEnforced) {
+            issuingCountry = isEnforced;
+        }
+
+        /**
+         * Whether nationality in id matching is enforced.
+         * 
+         * @return Whether nationality in id matching is enforced
+         */
+        public boolean isNationality() {
+            return nationality;
+        }
+
+        /**
+         * Set whether nationality in id matching is enforced.
+         * 
+         */
+        public void setNationality(boolean isEnforced) {
+            nationality = isEnforced;
+        }
+
+        /**
+         * Get number between 1-100, a threshold that name score must be equal or
+         * higher.
+         * 
+         * @return Number between 1-100, a threshold that name score must be equal or
+         *         higher
+         */
+        public int getNameScore() {
+            return nameScore;
+        }
+
+        /**
+         * Set number between 1-100, a threshold that name score must be equal or
+         * higher.
+         * 
+         * @param score Number between 1-100, a threshold that name score must be equal
+         *              or higher
+         */
+        public void setNameScore(int score) {
+            nameScore = score;
         }
 
     }
