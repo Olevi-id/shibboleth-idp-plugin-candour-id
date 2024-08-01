@@ -21,12 +21,18 @@ public class CandourInvitationRequestTest {
 
     private CandourInvitationRequest message;
 
-    private String hmacKey = "xxxyyy-31e1-aaaaa-8cb9-bdddddfc4";
-    private String publicKey = "7xxxyyyf0-2ssaa-4789-ee2-cddb05e7a";
+    private String hmacKey = "d818a281-3226-4615-8455-7a004894ca97";
+    private String publicKey = "4c75a6b6-88e5-4365-972b-f88edb7f14e8";
 
     @BeforeMethod
     protected void setUp() throws Exception {
         message = new CandourInvitationRequest(new URI("https://example.com"), publicKey, hmacKey);
+        message.getPayload().setCallbackUrl("https://example.com/callback/init");
+        message.getPayload().setCallbackPostEndpoint("https://example.com/callback/done");
+        message.getPayload().getAllowedVerificationMethods().setIdWeb(true);
+        message.getPayload().getAllowedVerificationDocuments().setIdCard(true);
+        message.getPayload().getResultProperties().setName(true);
+
     }
 
     @Test
@@ -40,7 +46,10 @@ public class CandourInvitationRequestTest {
         System.out.println(
                 String.format("curl -X POST https://rest-sandbox.candour.fi/v1 -H \"%s\" -H \"%s\" -H \"%s\" -d \"%s\"",
                         request.getHeader("Content-Type"), request.getHeader("X-AUTH-CLIENT"),
-                        request.getHeader("X-HMAC-SIGNATURE"), EntityUtils.toString(request.getEntity())));
+                        request.getHeader("X-HMAC-SIGNATURE"),
+                        EntityUtils.toString(request.getEntity()).replace("\"", "\\\"")));
+        System.out.println();
+        System.out.println(EntityUtils.toString(request.getEntity()));
 
     }
 
