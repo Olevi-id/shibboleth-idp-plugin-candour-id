@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:c="http://www.springframework.org/schema/c"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
+
+       default-init-method="initialize"
+       default-destroy-method="destroy">
+
+    <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer" p:placeholderPrefix="%{"
+        p:placeholderSuffix="}" />
+
+    <bean id="CreateSession"
+        class="fi.csc.shibboleth.plugin.candourid.CreateSession" scope="prototype" />
+        
+    <bean id="PopulateSubjectCanonicalizationContext"
+        class="net.shibboleth.idp.authn.impl.PopulateSubjectCanonicalizationContext" scope="prototype"
+        p:availableFlows-ref="candour.PostLoginSubjectCanonicalizationFlows" />
+        
+    <bean id="candour.PostLoginSubjectCanonicalizationFlows"
+        class="net.shibboleth.shared.spring.factory.CombiningListFactoryBean"
+        p:firstList-ref="InbuiltPostLoginSubjectCanonicalizationFlows"
+        p:secondList-ref="shibboleth.PostLoginSubjectCanonicalizationFlows" />
+
+    <bean id="WriteAuditLog" class="net.shibboleth.idp.profile.audit.impl.WriteAuditLog" scope="prototype"
+        p:profileContextLookupStrategy-ref="shibboleth.ChildLookup.ProxyProfileRequestContext"
+        p:formattingMap-ref="shibboleth.AuditFormattingMap"
+        p:dateTimeFormat="#{getObject('shibboleth.AuditDateTimeFormat')}"
+        p:useDefaultTimeZone="#{getObject('shibboleth.AuditDefaultTimeZone') ?: false}"
+        p:httpServletRequestSupplier-ref="shibboleth.HttpServletRequestSupplier" />
+
+    <bean id="CandourInvitationRequestPayload"
+        class="fi.csc.shibboleth.plugin.candourid.messaging.impl.CandourInvitationRequestPayload" scope="prototype"
+        p:allowedVerificationMethods-ref="AllowedVerificationMethods"
+        p:allowedVerificationDocuments-ref="AllowedVerificationDocuments"
+        p:resultProperties-ref="ResultProperties"
+        p:user-ref="User"
+        p:enforceValues-ref="EnforceValues" />
+
+    <bean id="AllowedVerificationMethods"
+        class="fi.csc.shibboleth.plugin.candourid.messaging.impl.AllowedVerificationMethods" scope="prototype"
+        p:idWeb="%{candour.allowedVerificationMethods.idWeb:}"
+        p:rfidApp="%{candour.allowedVerificationMethods.rfidApp:}"
+        p:idApp="%{candour.allowedVerificationMethods.idApp:}" />
+
+    <bean id="AllowedVerificationDocuments"
+        class="fi.csc.shibboleth.plugin.candourid.messaging.impl.AllowedVerificationDocuments" scope="prototype"
+        p:passport="%{candour.allowedVerificationDocuments.passport:}"
+        p:idCard="%{candour.allowedVerificationDocuments.idCard:}" />
+
+    <bean id="ResultProperties"
+        class="fi.csc.shibboleth.plugin.candourid.messaging.impl.ResultProperties" scope="prototype"
+        p:name="%{candour.resultProperties.name:}"
+        p:nameMatch="%{candour.resultProperties.nameMatch:}"
+        p:nameScore="%{candour.resultProperties.nameScore:}"
+        p:dateOfBirth="%{candour.resultProperties.dateOfBirth:}"
+        p:dateOfBirthMatch="%{candour.resultProperties.dateOfBirthMatch:}"
+        p:nationalIdentificationNumber="%{candour.resultProperties.nationalIdentificationNumber:}"
+        p:idNumber="%{candour.resultProperties.idNumber:}"
+        p:idDocumentType="%{candour.resultProperties.idDocumentType:}"
+        p:idExpiration="%{candour.resultProperties.idExpiration:}"
+        p:idIssuer="%{candour.resultProperties.idIssuer:}"
+        p:nationality="%{candour.resultProperties.nationality:}"
+        p:sex="%{candour.resultProperties.sex:}"
+        p:selfieImage="%{candour.resultProperties.selfieImage:}"
+        p:idMrzImage="%{candour.resultProperties.idMrzImage:}"
+        p:idOtherImage="%{candour.resultProperties.idOtherImage:}"
+        p:idChipImage="%{candour.resultProperties.idChipImage:}" />
+
+    <bean id="User"
+        class="fi.csc.shibboleth.plugin.candourid.messaging.impl.User" scope="prototype"
+        p:firstName="%{candour.user.firstName:}"
+        p:lastName="%{candour.user.lastName:}"
+        p:dateOfBirth="%{candour.user.dateOfBirth:}"
+        p:nationalIdentificationNumber="%{candour.user.nationalIdentificationNumber:}"
+        p:idNumber="%{candour.user.idNumber:}"
+        p:expirationDate="%{candour.user.expirationDate:}"
+        p:issuingCountry="%{candour.user.issuingCountry:}"
+        p:nationality="%{candour.user.nationality:}"
+        p:identifier="%{candour.user.identifier:}"
+        p:sex="%{candour.user.sex:}" />
+
+    <bean id="EnforceValues"
+        class="fi.csc.shibboleth.plugin.candourid.messaging.impl.EnforceValues" scope="prototype"
+        p:dateOfBirth="%{candour.enforceValues.dateOfBirth:}"
+        p:nationalIdentificationNumber="%{candour.enforceValues.nationalIdentificationNumber:}"
+        p:expirationDate="%{candour.enforceValues.expirationDate:}"
+        p:issuingCountry="%{candour.enforceValues.issuingCountry:}"
+        p:nationality="%{candour.enforceValues.nationality:}"
+        p:sex="%{candour.enforceValues.sex:}"
+        p:nameScore="%{candour.enforceValues.nameScore:}" />
+
+</beans>
