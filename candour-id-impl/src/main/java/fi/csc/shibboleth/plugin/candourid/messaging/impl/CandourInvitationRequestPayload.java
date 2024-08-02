@@ -166,6 +166,51 @@ public class CandourInvitationRequestPayload {
     }
 
     /**
+     * Set allowed verification methods.
+     * 
+     * @param documents Allowed verification methods
+     */
+    public void setAllowedVerificationMethods(AllowedVerificationMethods methods) {
+        allowedVerificationMethods = methods;
+    }
+
+    /**
+     * Set Allowed verification documents.
+     * 
+     * @param properties Allowed verification documents
+     */
+    public void setAllowedVerificationDocuments(AllowedVerificationDocuments documents) {
+        allowedVerificationDocuments = documents;
+    }
+
+    /**
+     * Set expected result claims and used matchers.
+     * 
+     * @param properties Expected result claims and used matchers.
+     */
+    public void setResultProperties(ResultProperties properties) {
+        resultProperties = properties;
+    }
+
+    /**
+     * Set data for matching a user with resultProperties matchers.
+     * 
+     * @param usr Data for matching a user with resultProperties matchers
+     */
+    public void setUser(User usr) {
+        user = usr;
+    }
+
+    /**
+     * Set data for matching a user.
+     * 
+     * @param values Data for matching a user.
+     */
+    public void setEnforceValues(EnforceValues values) {
+        enforceValues = values;
+    }
+
+    /**
      * Class implementing fields for allowed verification methods.
      */
     @JsonInclude(JsonInclude.Include.NON_NULL)
