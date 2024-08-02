@@ -44,55 +44,55 @@
 
     <bean id="AllowedVerificationMethods"
         class="fi.csc.shibboleth.plugin.candourid.messaging.impl.AllowedVerificationMethods" scope="prototype"
-        p:idWeb="%{candour.allowedVerificationMethods.idWeb:}"
-        p:rfidApp="%{candour.allowedVerificationMethods.rfidApp:}"
-        p:idApp="%{candour.allowedVerificationMethods.idApp:}" />
+        p:idWeb="%{candour.allowedVerificationMethods.idWeb:#{null}}"
+        p:rfidApp="%{candour.allowedVerificationMethods.rfidApp:#{null}}"
+        p:idApp="%{candour.allowedVerificationMethods.idApp:#{null}}" />
 
     <bean id="AllowedVerificationDocuments"
         class="fi.csc.shibboleth.plugin.candourid.messaging.impl.AllowedVerificationDocuments" scope="prototype"
-        p:passport="%{candour.allowedVerificationDocuments.passport:}"
-        p:idCard="%{candour.allowedVerificationDocuments.idCard:}" />
+        p:passport="%{candour.allowedVerificationDocuments.passport:#{null}}"
+        p:idCard="%{candour.allowedVerificationDocuments.idCard:#{null}}" />
 
     <bean id="ResultProperties"
         class="fi.csc.shibboleth.plugin.candourid.messaging.impl.ResultProperties" scope="prototype"
-        p:name="%{candour.resultProperties.name:}"
-        p:nameMatch="%{candour.resultProperties.nameMatch:}"
-        p:nameScore="%{candour.resultProperties.nameScore:}"
-        p:dateOfBirth="%{candour.resultProperties.dateOfBirth:}"
-        p:dateOfBirthMatch="%{candour.resultProperties.dateOfBirthMatch:}"
-        p:nationalIdentificationNumber="%{candour.resultProperties.nationalIdentificationNumber:}"
-        p:idNumber="%{candour.resultProperties.idNumber:}"
-        p:idDocumentType="%{candour.resultProperties.idDocumentType:}"
-        p:idExpiration="%{candour.resultProperties.idExpiration:}"
-        p:idIssuer="%{candour.resultProperties.idIssuer:}"
-        p:nationality="%{candour.resultProperties.nationality:}"
-        p:sex="%{candour.resultProperties.sex:}"
-        p:selfieImage="%{candour.resultProperties.selfieImage:}"
-        p:idMrzImage="%{candour.resultProperties.idMrzImage:}"
-        p:idOtherImage="%{candour.resultProperties.idOtherImage:}"
-        p:idChipImage="%{candour.resultProperties.idChipImage:}" />
+        p:name="%{candour.resultProperties.name:#{null}}"
+        p:nameMatch="%{candour.resultProperties.nameMatch:#{null}}"
+        p:nameScore="%{candour.resultProperties.nameScore:#{null}}"
+        p:dateOfBirth="%{candour.resultProperties.dateOfBirth:#{null}}"
+        p:dateOfBirthMatch="%{candour.resultProperties.dateOfBirthMatch:#{null}}"
+        p:nationalIdentificationNumber="%{candour.resultProperties.nationalIdentificationNumber:#{null}}"
+        p:idNumber="%{candour.resultProperties.idNumber:#{null}}"
+        p:idDocumentType="%{candour.resultProperties.idDocumentType:#{null}}"
+        p:idExpiration="%{candour.resultProperties.idExpiration:#{null}}"
+        p:idIssuer="%{candour.resultProperties.idIssuer:#{null}}"
+        p:nationality="%{candour.resultProperties.nationality:#{null}}"
+        p:sex="%{candour.resultProperties.sex:#{null}}"
+        p:selfieImage="%{candour.resultProperties.selfieImage:#{null}}"
+        p:idMrzImage="%{candour.resultProperties.idMrzImage:#{null}}"
+        p:idOtherImage="%{candour.resultProperties.idOtherImage:#{null}}"
+        p:idChipImage="%{candour.resultProperties.idChipImage:#{null}}" />
 
     <bean id="User"
         class="fi.csc.shibboleth.plugin.candourid.messaging.impl.User" scope="prototype"
-        p:firstName="%{candour.user.firstName:}"
-        p:lastName="%{candour.user.lastName:}"
-        p:dateOfBirth="%{candour.user.dateOfBirth:}"
-        p:nationalIdentificationNumber="%{candour.user.nationalIdentificationNumber:}"
-        p:idNumber="%{candour.user.idNumber:}"
-        p:expirationDate="%{candour.user.expirationDate:}"
-        p:issuingCountry="%{candour.user.issuingCountry:}"
-        p:nationality="%{candour.user.nationality:}"
-        p:identifier="%{candour.user.identifier:}"
-        p:sex="%{candour.user.sex:}" />
+        p:firstName="%{candour.user.firstName:#{null}}"
+        p:lastName="%{candour.user.lastName:#{null}}"
+        p:dateOfBirth="%{candour.user.dateOfBirth:#{null}}"
+        p:nationalIdentificationNumber="%{candour.user.nationalIdentificationNumber:#{null}}"
+        p:idNumber="%{candour.user.idNumber:#{null}}"
+        p:expirationDate="%{candour.user.expirationDate:#{null}}"
+        p:issuingCountry="%{candour.user.issuingCountry:#{null}}"
+        p:nationality="%{candour.user.nationality:#{null}}"
+        p:identifier="%{candour.user.identifier:#{null}}"
+        p:sex="%{candour.user.sex:#{null}}" />
 
     <bean id="EnforceValues"
         class="fi.csc.shibboleth.plugin.candourid.messaging.impl.EnforceValues" scope="prototype"
-        p:dateOfBirth="%{candour.enforceValues.dateOfBirth:}"
-        p:nationalIdentificationNumber="%{candour.enforceValues.nationalIdentificationNumber:}"
-        p:expirationDate="%{candour.enforceValues.expirationDate:}"
-        p:issuingCountry="%{candour.enforceValues.issuingCountry:}"
-        p:nationality="%{candour.enforceValues.nationality:}"
-        p:sex="%{candour.enforceValues.sex:}"
-        p:nameScore="%{candour.enforceValues.nameScore:}" />
+        p:dateOfBirth="%{candour.enforceValues.dateOfBirth:#{null}}"
+        p:nationalIdentificationNumber="%{candour.enforceValues.nationalIdentificationNumber:#{null}}"
+        p:expirationDate="%{candour.enforceValues.expirationDate:#{null}}"
+        p:issuingCountry="%{candour.enforceValues.issuingCountry:#{null}}"
+        p:nationality="%{candour.enforceValues.nationality:#{null}}"
+        p:sex="%{candour.enforceValues.sex:#{null}}"
+        p:nameScore="%{candour.enforceValues.nameScore:#{null}}" />
 
 </beans>
