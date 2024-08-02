@@ -168,26 +168,27 @@ public class CandourInvitationRequestPayload {
     /**
      * Class implementing fields for allowed verification methods.
      */
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public class AllowedVerificationMethods {
 
         /** Whether web browser based optical verification is allowed. */
-        private boolean idWeb;
+        private Boolean idWeb;
 
         /**
          * Whether mobile app based optical verification + nfc chip verification is
          * allowed.
          */
-        private boolean rfidApp;
+        private Boolean rfidApp;
 
         /** Whether mobile app based optical verification is allowed. */
-        private boolean idApp;
+        private Boolean idApp;
 
         /**
          * Whether web browser based optical verification is allowed.
          * 
          * @return whether web browser based optical verification is allowed
          */
-        public boolean isIdWeb() {
+        public Boolean isIdWeb() {
             return idWeb;
         }
 
@@ -196,7 +197,7 @@ public class CandourInvitationRequestPayload {
          * 
          * @param allowed Whether web browser based optical verification is allowed
          */
-        public void setIdWeb(boolean allowed) {
+        public void setIdWeb(Boolean allowed) {
             idWeb = allowed;
         }
 
@@ -207,7 +208,7 @@ public class CandourInvitationRequestPayload {
          * @return Whether mobile app based optical verification + nfc chip verification
          *         is allowed
          */
-        public boolean isRfidApp() {
+        public Boolean isRfidApp() {
             return rfidApp;
         }
 
@@ -218,7 +219,7 @@ public class CandourInvitationRequestPayload {
          * @param allowed whether mobile app based optical verification + nfc chip
          *                verification is allowed.
          */
-        public void setRfidApp(boolean allowed) {
+        public void setRfidApp(Boolean allowed) {
             rfidApp = allowed;
         }
 
@@ -227,7 +228,7 @@ public class CandourInvitationRequestPayload {
          * 
          * @return Whether mobile app based optical verification is allowed
          */
-        public boolean isIdApp() {
+        public Boolean isIdApp() {
             return idApp;
         }
 
@@ -236,7 +237,7 @@ public class CandourInvitationRequestPayload {
          * 
          * @param idApp whether mobile app based optical verification is allowed.
          */
-        public void setIdApp(boolean allowed) {
+        public void setIdApp(Boolean allowed) {
             idApp = allowed;
         }
     }
@@ -244,19 +245,20 @@ public class CandourInvitationRequestPayload {
     /**
      * Class implementing fields for allowed verification documents.
      */
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public class AllowedVerificationDocuments {
 
         /** Whether passport is allowed as verification document. */
-        private boolean passport;
+        private Boolean passport;
         /** Whether national id card is allowed as verification document. */
-        private boolean idCard;
+        private Boolean idCard;
 
         /**
          * Set whether passport is allowed as verification document.
          * 
          * @param allowed whether passport is allowed as verification document.
          */
-        public void setPassport(boolean allowed) {
+        public void setPassport(Boolean allowed) {
             passport = allowed;
         }
 
@@ -265,7 +267,7 @@ public class CandourInvitationRequestPayload {
          * 
          * @return Whether passport is allowed as verification document
          */
-        public boolean isPassport() {
+        public Boolean isPassport() {
             return passport;
         }
 
@@ -274,7 +276,7 @@ public class CandourInvitationRequestPayload {
          * 
          * @param allowed Whether national id card is allowed as verification document
          */
-        public void setIdCard(boolean allowed) {
+        public void setIdCard(Boolean allowed) {
             idCard = allowed;
         }
 
@@ -283,7 +285,7 @@ public class CandourInvitationRequestPayload {
          * 
          * @return Whether national id card is allowed as verification document
          */
-        public boolean isIdCard() {
+        public Boolean isIdCard() {
             return idCard;
         }
     }
@@ -291,47 +293,47 @@ public class CandourInvitationRequestPayload {
     /**
      * Class implementing fields for expected result claims and used matchers.
      */
-    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public class ResultProperties {
         /** Whether name data is returned. */
-        private boolean name;
+        private Boolean name;
         /** Whether expected name matching is used. */
-        private boolean nameMatch;
+        private Boolean nameMatch;
         /** Whether expected name matching is used and what is the match score. */
-        private boolean nameScore;
+        private Boolean nameScore;
         /** Whether date of birth is returned. */
-        private boolean dateOfBirth;
+        private Boolean dateOfBirth;
         /** Whether expected date of birth matching is used. */
-        private boolean dateOfBirthMatch;
+        private Boolean dateOfBirthMatch;
         /** Whether national identification data is returned. */
-        private boolean nationalIdenficationNumber;
+        private Boolean nationalIdenficationNumber;
         /** Whether id number of id document is returned. */
-        private boolean idNumber;
+        private Boolean idNumber;
         /** Whether id type id document is returned. */
-        private boolean idDocumentType;
+        private Boolean idDocumentType;
         /** Whether id document expiration is returned. */
-        private boolean idExpiration;
+        private Boolean idExpiration;
         /** Whether issuer country code is returned. */
-        private boolean idIssuer;
+        private Boolean idIssuer;
         /** Whether nationality is returned. */
-        private boolean nationality;
+        private Boolean nationality;
         /** Whether sex is returned. */
-        private boolean sex;
+        private Boolean sex;
         /** Whether selfie img is returned. */
-        private boolean selfieImage;
+        private Boolean selfieImage;
         /** Whether MRZ side of id img is returned. */
-        private boolean idMrzImage;
+        private Boolean idMrzImage;
         /** Whether other side of id img is returned. */
-        private boolean idOtherImage;
+        private Boolean idOtherImage;
         /** Whether user img from id biometric is returned. */
-        private boolean idChipImage;
+        private Boolean idChipImage;
 
         /**
          * Whether name data is returned. True by default.
          * 
          * @return whether name data is returned. True by default
          */
-        public boolean isName() {
+        public Boolean isName() {
             return name;
         }
 
@@ -340,7 +342,7 @@ public class CandourInvitationRequestPayload {
          * 
          * @param isRequired Whether name data is returned. True by default.
          */
-        public void setName(boolean isRequired) {
+        public void setName(Boolean isRequired) {
             name = isRequired;
         }
 
@@ -349,7 +351,7 @@ public class CandourInvitationRequestPayload {
          * 
          * @return whether expected name matching is used
          */
-        public boolean isNameMatch() {
+        public Boolean isNameMatch() {
             return nameMatch;
         }
 
@@ -358,7 +360,7 @@ public class CandourInvitationRequestPayload {
          * 
          * @param isUsed whether expected name matching is used.
          */
-        public void setNameMatch(boolean isUsed) {
+        public void setNameMatch(Boolean isUsed) {
             nameMatch = isUsed;
         }
 
@@ -367,7 +369,7 @@ public class CandourInvitationRequestPayload {
          * 
          * @return Whether expected name matching is used and what is the match score
          */
-        public boolean isNameScore() {
+        public Boolean isNameScore() {
             return nameScore;
         }
 
@@ -377,7 +379,7 @@ public class CandourInvitationRequestPayload {
          * @param isUsed Whether expected name matching is used and what is the match
          *               score
          */
-        public void setNameScore(boolean isUsed) {
+        public void setNameScore(Boolean isUsed) {
             nameScore = isUsed;
         }
 
@@ -386,7 +388,7 @@ public class CandourInvitationRequestPayload {
          * 
          * @return Whether date of birth is returned
          */
-        public boolean isDateOfBirth() {
+        public Boolean isDateOfBirth() {
             return dateOfBirth;
         }
 
@@ -395,7 +397,7 @@ public class CandourInvitationRequestPayload {
          * 
          * @param isRequired Whether date of birth is returned
          */
-        public void setDateOfBirth(boolean isRequired) {
+        public void setDateOfBirth(Boolean isRequired) {
             dateOfBirth = isRequired;
         }
 
@@ -404,7 +406,7 @@ public class CandourInvitationRequestPayload {
          * 
          * @return Whether expected date of birth matching is used
          */
-        public boolean isDateOfBirthMatch() {
+        public Boolean isDateOfBirthMatch() {
             return dateOfBirthMatch;
         }
 
@@ -413,7 +415,7 @@ public class CandourInvitationRequestPayload {
          * 
          * @param isUsed whether expected date of birth matching is used.
          */
-        public void setDateOfBirthMatch(boolean isUsed) {
+        public void setDateOfBirthMatch(Boolean isUsed) {
             dateOfBirthMatch = isUsed;
         }
 
@@ -422,7 +424,7 @@ public class CandourInvitationRequestPayload {
          * 
          * @return Whether national identification data is returned
          */
-        public boolean isNationalIdenficationNumber() {
+        public Boolean isNationalIdenficationNumber() {
             return nationalIdenficationNumber;
         }
 
@@ -431,7 +433,7 @@ public class CandourInvitationRequestPayload {
          * 
          * @param isRequired Whether national identification data is returned
          */
-        public void setNationalIdenficationNumber(boolean isRequired) {
+        public void setNationalIdenficationNumber(Boolean isRequired) {
             nationalIdenficationNumber = isRequired;
         }
 
@@ -440,7 +442,7 @@ public class CandourInvitationRequestPayload {
          * 
          * @return Whether id number of id document is returned
          */
-        public boolean isIdNumber() {
+        public Boolean isIdNumber() {
             return idNumber;
         }
 
@@ -449,7 +451,7 @@ public class CandourInvitationRequestPayload {
          * 
          * @param isRequired Whether id number of id document is returned.
          */
-        public void setIdNumber(boolean isRequired) {
+        public void setIdNumber(Boolean isRequired) {
             idNumber = isRequired;
         }
 
@@ -458,7 +460,7 @@ public class CandourInvitationRequestPayload {
          * 
          * @return Whether id type id document is returned
          */
-        public boolean isIdDocumentType() {
+        public Boolean isIdDocumentType() {
             return idDocumentType;
         }
 
@@ -467,7 +469,7 @@ public class CandourInvitationRequestPayload {
          * 
          * @param isRequired Whether id type id document is returned.
          */
-        public void setIdDocumentType(boolean isRequired) {
+        public void setIdDocumentType(Boolean isRequired) {
             idDocumentType = isRequired;
         }
 
@@ -476,7 +478,7 @@ public class CandourInvitationRequestPayload {
          * 
          * @return Whether id document expiration is returned
          */
-        public boolean isIdExpiration() {
+        public Boolean isIdExpiration() {
             return idExpiration;
         }
 
@@ -485,7 +487,7 @@ public class CandourInvitationRequestPayload {
          * 
          * @param isRequired Whether id document expiration is returned.
          */
-        public void setIdExpiration(boolean isRequired) {
+        public void setIdExpiration(Boolean isRequired) {
             idExpiration = isRequired;
         }
 
@@ -494,7 +496,7 @@ public class CandourInvitationRequestPayload {
          * 
          * @return Whether issuer country code is returned.
          */
-        public boolean isIdIssuer() {
+        public Boolean isIdIssuer() {
             return idIssuer;
         }
 
@@ -503,7 +505,7 @@ public class CandourInvitationRequestPayload {
          * 
          * @param isRequired Whether issuer country code is returned.
          */
-        public void setIdIssuer(boolean isRequired) {
+        public void setIdIssuer(Boolean isRequired) {
             idIssuer = isRequired;
         }
 
@@ -512,7 +514,7 @@ public class CandourInvitationRequestPayload {
          * 
          * @return Whether nationality is returned
          */
-        public boolean isNationality() {
+        public Boolean isNationality() {
             return nationality;
         }
 
@@ -521,7 +523,7 @@ public class CandourInvitationRequestPayload {
          * 
          * @param isRequired Whether nationality is returned.
          */
-        public void setNationality(boolean isRequired) {
+        public void setNationality(Boolean isRequired) {
             nationality = isRequired;
         }
 
@@ -530,7 +532,7 @@ public class CandourInvitationRequestPayload {
          * 
          * @return Whether sex is returned.
          */
-        public boolean isSex() {
+        public Boolean isSex() {
             return sex;
         }
 
@@ -539,7 +541,7 @@ public class CandourInvitationRequestPayload {
          * 
          * @param isRequired Whether sex is returned.
          */
-        public void setSex(boolean isRequired) {
+        public void setSex(Boolean isRequired) {
             sex = isRequired;
         }
 
@@ -548,7 +550,7 @@ public class CandourInvitationRequestPayload {
          * 
          * @return whether selfie img is returned.
          */
-        public boolean isSelfieImage() {
+        public Boolean isSelfieImage() {
             return selfieImage;
         }
 
@@ -557,7 +559,7 @@ public class CandourInvitationRequestPayload {
          * 
          * @param isRequired Whether selfie img is returned
          */
-        public void setSelfieImage(boolean isRequired) {
+        public void setSelfieImage(Boolean isRequired) {
             selfieImage = isRequired;
         }
 
@@ -566,7 +568,7 @@ public class CandourInvitationRequestPayload {
          * 
          * @return Whether MRZ side of id img is returned
          */
-        public boolean isIdMrzImage() {
+        public Boolean isIdMrzImage() {
             return idMrzImage;
         }
 
@@ -575,7 +577,7 @@ public class CandourInvitationRequestPayload {
          * 
          * @param isRequired Whether MRZ side of id img is returned.
          */
-        public void setIdMrzImage(boolean isRequired) {
+        public void setIdMrzImage(Boolean isRequired) {
             idMrzImage = isRequired;
         }
 
@@ -584,7 +586,7 @@ public class CandourInvitationRequestPayload {
          * 
          * @return Whether other side of id img is returned
          */
-        public boolean isIdOtherImage() {
+        public Boolean isIdOtherImage() {
             return idOtherImage;
         }
 
@@ -593,7 +595,7 @@ public class CandourInvitationRequestPayload {
          * 
          * @param isRequired Whether other side of id img is returned
          */
-        public void setIdOtherImage(boolean isRequired) {
+        public void setIdOtherImage(Boolean isRequired) {
             idOtherImage = isRequired;
         }
 
@@ -602,7 +604,7 @@ public class CandourInvitationRequestPayload {
          * 
          * @return Whether user img from id biometric is returned
          */
-        public boolean isIdChipImage() {
+        public Boolean isIdChipImage() {
             return idChipImage;
         }
 
@@ -611,7 +613,7 @@ public class CandourInvitationRequestPayload {
          * 
          * @param isRequired Whether user img from id biometric is returned
          */
-        public void setIdChipImage(boolean isRequired) {
+        public void setIdChipImage(Boolean isRequired) {
             idChipImage = isRequired;
         }
 
@@ -620,7 +622,7 @@ public class CandourInvitationRequestPayload {
     /**
      * Class implementing fields that are input for user matchers.
      */
-    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public class User {
 
         /** First name. */
@@ -828,22 +830,22 @@ public class CandourInvitationRequestPayload {
     /**
      * Class implementing fields that indicate which matchers must match.
      */
-    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public class EnforceValues {
         /** Whether expected date of birth matching is enforced. */
-        private boolean dateOfBirth;
+        private Boolean dateOfBirth;
         /** Whether identity document number in id matching is enforced. */
-        private boolean idNumber;
+        private Boolean idNumber;
         /** Whether national identification number in id matching is enforced. */
-        private boolean nationalIdentificationNumber;
+        private Boolean nationalIdentificationNumber;
         /** Whether document expiration date in id matching is enforced. */
-        private boolean expirationDate;
+        private Boolean expirationDate;
         /** Whether document issuing country in id matching is enforced. */
-        private boolean issuingCountry;
+        private Boolean issuingCountry;
         /** Whether user nationality in id matching is enforced. */
-        private boolean nationality;
+        private Boolean nationality;
         /** Whether user sex id matching is enforced. */
-        private boolean sex;
+        private Boolean sex;
         /**
          * Number between 1-100, a threshold that name score must be equal or higher.
          */
@@ -854,7 +856,7 @@ public class CandourInvitationRequestPayload {
          * 
          * @return Whether expected date of birth matching is enforced.
          */
-        public boolean isDateOfBirth() {
+        public Boolean isDateOfBirth() {
             return dateOfBirth;
         }
 
@@ -863,7 +865,7 @@ public class CandourInvitationRequestPayload {
          * 
          * @param isEnforced Whether expected date of birth matching is enforced
          */
-        public void setDateOfBirth(boolean isEnforced) {
+        public void setDateOfBirth(Boolean isEnforced) {
             dateOfBirth = isEnforced;
         }
 
@@ -872,7 +874,7 @@ public class CandourInvitationRequestPayload {
          * 
          * @return Whether identity document number in id matching is enforced
          */
-        public boolean isIdNumber() {
+        public Boolean isIdNumber() {
             return idNumber;
         }
 
@@ -881,7 +883,7 @@ public class CandourInvitationRequestPayload {
          * 
          * @param isEnforced Whether identity document number in id matching is enforced
          */
-        public void setIdNumber(boolean isEnforced) {
+        public void setIdNumber(Boolean isEnforced) {
             idNumber = isEnforced;
         }
 
@@ -890,7 +892,7 @@ public class CandourInvitationRequestPayload {
          * 
          * @return Whether national identification number in id matching is enforced.
          */
-        public boolean isNationalIdentificationNumber() {
+        public Boolean isNationalIdentificationNumber() {
             return nationalIdentificationNumber;
         }
 
@@ -900,7 +902,7 @@ public class CandourInvitationRequestPayload {
          * @param isEnforced Whether national identification number in id matching is
          *                   enforced
          */
-        public void setNationalIdentificationNumber(boolean isEnforced) {
+        public void setNationalIdentificationNumber(Boolean isEnforced) {
             nationalIdentificationNumber = isEnforced;
         }
 
@@ -909,7 +911,7 @@ public class CandourInvitationRequestPayload {
          * 
          * @return Whether document expiration date in id matching is enforced
          */
-        public boolean isExpirationDate() {
+        public Boolean isExpirationDate() {
             return expirationDate;
         }
 
@@ -918,7 +920,7 @@ public class CandourInvitationRequestPayload {
          * 
          * @param isEnforced Whether document expiration date in id matching is enforced
          */
-        public void setExpirationDate(boolean isEnforced) {
+        public void setExpirationDate(Boolean isEnforced) {
             expirationDate = isEnforced;
         }
 
@@ -927,7 +929,7 @@ public class CandourInvitationRequestPayload {
          * 
          * @return Whether document issuing country in id matching is enforced.
          */
-        public boolean isIssuingCountry() {
+        public Boolean isIssuingCountry() {
             return issuingCountry;
         }
 
@@ -936,7 +938,7 @@ public class CandourInvitationRequestPayload {
          * 
          * @param isEnforced Whether document issuing country in id matching is enforced
          */
-        public void setIssuingCountry(boolean isEnforced) {
+        public void setIssuingCountry(Boolean isEnforced) {
             issuingCountry = isEnforced;
         }
 
@@ -945,7 +947,7 @@ public class CandourInvitationRequestPayload {
          * 
          * @return Whether nationality in id matching is enforced
          */
-        public boolean isNationality() {
+        public Boolean isNationality() {
             return nationality;
         }
 
@@ -953,8 +955,25 @@ public class CandourInvitationRequestPayload {
          * Set whether nationality in id matching is enforced.
          * 
          */
-        public void setNationality(boolean isEnforced) {
+        public void setNationality(Boolean isEnforced) {
             nationality = isEnforced;
+        }
+
+        /**
+         * Whether user sex in id matching is enforced.
+         * 
+         * @return Whether user sex in id matching is enforced
+         */
+        public Boolean isSex() {
+            return sex;
+        }
+
+        /**
+         * Set whether user sex in id matching is enforced.
+         * 
+         */
+        public void setSex(Boolean isEnforced) {
+            sex = isEnforced;
         }
 
         /**
