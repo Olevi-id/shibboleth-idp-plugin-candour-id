@@ -5,12 +5,12 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>fi.csc.shibboleth.plugin.candourid</groupId>
-    <artifactId>idp-plugin-candour-id</artifactId>
+    <artifactId>idp-plugin-candourid</artifactId>
     <version>0.9.0</version>
   </parent>
   <name>Shibboleth IdP :: Plugins :: Candour ID API</name>
   <description>Candour ID authentication flow API.</description>
-  <artifactId>candour-id-api</artifactId>
+  <artifactId>candourid-api</artifactId>
   <packaging>jar</packaging>
   <properties>
     <checkstyle.configLocation>${project.basedir}/../checkstyle.xml</checkstyle.configLocation>
@@ -51,7 +51,7 @@
           <archive>
             <manifestSections>
               <manifestSection>
-                <name>fi/csc/shibboleth/plugin/proxylogout/</name>
+                <name>fi/csc/shibboleth/plugin/candourid/</name>
                 <manifestEntries>
                   <Implementation-Title>${project.artifactId}</Implementation-Title>
                   <Implementation-Version>${project.version}</Implementation-Version>

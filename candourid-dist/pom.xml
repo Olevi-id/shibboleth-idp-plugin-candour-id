@@ -5,16 +5,16 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>fi.csc.shibboleth.plugin.candourid</groupId>
-    <artifactId>idp-plugin-candour-id</artifactId>
+    <artifactId>idp-plugin-candourid</artifactId>
     <version>0.9.0</version>
   </parent>
   <name>Shibboleth IdP :: Plugins :: Candour ID Distribution</name>
   <description>Candour ID authentication flow packaging.</description>
-  <artifactId>candour-id-dist</artifactId>
+  <artifactId>candourid-dist</artifactId>
   <packaging>pom</packaging>
   <properties>
     <checkstyle.configLocation>${project.basedir}/../checkstyle.xml</checkstyle.configLocation>
-    <dist.finalName>shibboleth-idp-plugin-candour-id-${project.version}</dist.finalName>
+    <dist.finalName>shibboleth-idp-plugin-candourid-${project.version}</dist.finalName>
     <dist.assemblyDirectory>${project.build.directory}/${dist.finalName}</dist.assemblyDirectory>
   </properties>
   <build>
@@ -57,7 +57,6 @@
           <appendAssemblyId>false</appendAssemblyId>
           <descriptors>
             <descriptor>src/main/assembly/plugin-assembly-tgz.xml</descriptor>
-            <descriptor>src/main/assembly/plugin-assembly-zip.xml</descriptor>
           </descriptors>
           <finalName>${dist.finalName}</finalName>
           <tarLongFileMode>gnu</tarLongFileMode>

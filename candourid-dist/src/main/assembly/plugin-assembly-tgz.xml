@@ -10,10 +10,10 @@
     </formats>
     <fileSets>
         <fileSet>
-            <directory>../candour-id-api/target</directory>
+            <directory>../candourid-api/target</directory>
             <outputDirectory>webapp/WEB-INF/lib</outputDirectory>
             <includes>
-                <include>proxy-logout-api-*.jar</include>
+                <include>candourid-impl-*.jar</include>
             </includes>
             <excludes>
                 <exclude>*test*.jar</exclude>
@@ -22,10 +22,10 @@
             </excludes>
         </fileSet>
         <fileSet>
-            <directory>../candour-id-impl/target</directory>
+            <directory>../candourid-impl/target</directory>
             <outputDirectory>webapp/WEB-INF/lib</outputDirectory>
             <includes>
-                <include>proxy-logout-impl-*.jar</include>
+                <include>candourid-impl-*.jar</include>
             </includes>
             <excludes>
                 <exclude>*test*.jar</exclude>
@@ -38,7 +38,7 @@
             <outputDirectory>webapp</outputDirectory>
         </fileSet>
         <fileSet>
-            <directory>../candour-id-impl/src/main/resources/fi/csc/shibboleth/plugin/candour-id</directory>
+            <directory>../candourid-impl/src/main/resources/fi/csc/shibboleth/plugin/candourid</directory>
             <outputDirectory>bootstrap</outputDirectory>
             <includes>
                 <include>plugin.properties</include>

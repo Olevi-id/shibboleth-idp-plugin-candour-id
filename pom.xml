@@ -6,7 +6,7 @@
   <name>Shibboleth IdP :: Plugins :: Candour ID</name>
   <description>An IdP plugin implementing Candour ID authentication flow.</description>
   <groupId>fi.csc.shibboleth.plugin.candourid</groupId>
-  <artifactId>idp-plugin-candour-id</artifactId>
+  <artifactId>idp-plugin-candourid</artifactId>
   <version>0.9.0</version>
   <packaging>pom</packaging>
   <properties>
@@ -45,7 +45,7 @@
     <dependencies>
       <dependency>
         <groupId>fi.csc.shibboleth.plugin.candourid</groupId>
-        <artifactId>candour-id-api</artifactId>
+        <artifactId>candourid-api</artifactId>
         <version>${project.version}</version>
         <scope>provided</scope>
       </dependency>
@@ -90,9 +90,9 @@
     </dependencies>
   </dependencyManagement>
   <modules>
-    <module>candour-id-api</module>
-    <module>candour-id-impl</module>
-    <module>candour-id-dist</module>
+    <module>candourid-api</module>
+    <module>candourid-impl</module>
+    <module>candourid-dist</module>
   </modules>
   <build>
     <pluginManagement>
