@@ -18,7 +18,7 @@ public class ResultProperties {
     /** Whether expected date of birth matching is used. */
     private Boolean dateOfBirthMatch;
     /** Whether national identification data is returned. */
-    private Boolean nationalIdenficationNumber;
+    private Boolean nationalIdentificationNumber;
     /** Whether id number of id document is returned. */
     private Boolean idNumber;
     /** Whether id type id document is returned. */
@@ -136,8 +136,8 @@ public class ResultProperties {
      * 
      * @return Whether national identification data is returned
      */
-    public Boolean isNationalIdenficationNumber() {
-        return nationalIdenficationNumber;
+    public Boolean isNationalIdentificationNumber() {
+        return nationalIdentificationNumber;
     }
 
     /**
@@ -145,8 +145,8 @@ public class ResultProperties {
      * 
      * @param isRequired Whether national identification data is returned
      */
-    public void setNationalIdenficationNumber(Boolean isRequired) {
-        nationalIdenficationNumber = isRequired;
+    public void setNationalIdentificationNumber(Boolean isRequired) {
+        nationalIdentificationNumber = isRequired;
     }
 
     /**
