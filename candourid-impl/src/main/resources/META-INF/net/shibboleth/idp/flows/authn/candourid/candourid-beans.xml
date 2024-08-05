@@ -16,23 +16,15 @@
         p:placeholderSuffix="}" />
 
     <bean id="CreateSession"
-        class="fi.csc.shibboleth.plugin.candourid.CreateSession" scope="prototype" />
-        
-    <bean id="PopulateSubjectCanonicalizationContext"
-        class="net.shibboleth.idp.authn.impl.PopulateSubjectCanonicalizationContext" scope="prototype"
-        p:availableFlows-ref="candour.PostLoginSubjectCanonicalizationFlows" />
-        
-    <bean id="candour.PostLoginSubjectCanonicalizationFlows"
-        class="net.shibboleth.shared.spring.factory.CombiningListFactoryBean"
-        p:firstList-ref="InbuiltPostLoginSubjectCanonicalizationFlows"
-        p:secondList-ref="shibboleth.PostLoginSubjectCanonicalizationFlows" />
-
-    <bean id="WriteAuditLog" class="net.shibboleth.idp.profile.audit.impl.WriteAuditLog" scope="prototype"
-        p:profileContextLookupStrategy-ref="shibboleth.ChildLookup.ProxyProfileRequestContext"
-        p:formattingMap-ref="shibboleth.AuditFormattingMap"
-        p:dateTimeFormat="#{getObject('shibboleth.AuditDateTimeFormat')}"
-        p:useDefaultTimeZone="#{getObject('shibboleth.AuditDefaultTimeZone') ?: false}"
-        p:httpServletRequestSupplier-ref="shibboleth.HttpServletRequestSupplier" />
+        class="fi.csc.shibboleth.plugin.candourid.impl.CreateSession" scope="prototype"
+        p:httpServletRequestSupplier-ref="shibboleth.HttpServletRequestSupplier"
+        p:httpClient="#{getObject('candour.authn.HttpClient') ?: getObject('shibboleth.InternalHttpClient')}"
+        p:httpClientSecurityParameters="#{getObject('candour.authn.HttpClientSecurityParameters')}"
+        p:candouridURI="%{candour.apiURI}"
+        p:clientPublicKey="%{candour.clientPublicKey}"
+        p:clientHmacKey="%{candour.clientHmacKey}"
+        p:callbackServletPath="%{candour.externalAuthnPath:/Authn/Candour}"
+        p:payload-ref="CandourInvitationRequestPayload" />
 
     <bean id="CandourInvitationRequestPayload"
         class="fi.csc.shibboleth.plugin.candourid.messaging.impl.CandourInvitationRequestPayload" scope="prototype"
