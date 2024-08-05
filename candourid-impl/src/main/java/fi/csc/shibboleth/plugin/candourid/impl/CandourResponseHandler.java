@@ -11,6 +11,8 @@ import net.shibboleth.shared.httpclient.HttpClientSupport;
 /**
  * First draft to make the implementation to compile and run.
  * 
+ * TODO: Add error handling and response parsing.
+ * 
  */
 public class CandourResponseHandler implements HttpClientResponseHandler<String> {
 
