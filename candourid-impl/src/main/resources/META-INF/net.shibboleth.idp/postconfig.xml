@@ -15,5 +15,24 @@
     <bean id="shibboleth.PropertySourcesPlaceholderConfigurer"
         class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer"
         p:placeholderPrefix="%{" p:placeholderSuffix="}" />
+        
+        <!-- The authentication flow descriptor -->
+
+    <bean id="authn/candourid" parent="shibboleth.AuthenticationFlow"
+        p:order="%{candourid.authn.order:1000}" p:nonBrowserSupported="%{candourid.authn.nonBrowserSupported:false}"
+        p:passiveAuthenticationSupported="%{candourid.authn.passiveAuthenticationSupported:true}"
+        p:forcedAuthenticationSupported="%{candourid.authn.forcedAuthenticationSupported:true}"
+        p:proxyRestrictionsEnforced="%{candourid.authn.proxyRestrictionsEnforced:%{idp.authn.enforceProxyRestrictions:true}}"
+        p:proxyScopingEnforced="%{candourid.authn.proxyScopingEnforced:false}"
+        p:discoveryRequired="%{candourid.authn.provider.discoveryRequired:false}"
+        p:lifetime="%{candourid.authn.lifetime:%{idp.authn.defaultLifetime:PT1H}}"
+        p:inactivityTimeout="%{candourid.authn.inactivityTimeout:%{idp.authn.defaultTimeout:PT30M}}"
+        p:reuseCondition-ref="#{'%{candourid.authn.reuseCondition:shibboleth.Conditions.TRUE}'.trim()}"
+        p:activationCondition-ref="#{'%{candourid.authn.activationCondition:shibboleth.Conditions.TRUE}'.trim()}">
+        <property name="supportedPrincipalsByString">
+            <bean parent="shibboleth.CommaDelimStringArray"
+                c:_0="#{'%{candourid.authn.supportedPrincipals:}'.trim()}" />
+        </property>
+    </bean>
 
 </beans>
