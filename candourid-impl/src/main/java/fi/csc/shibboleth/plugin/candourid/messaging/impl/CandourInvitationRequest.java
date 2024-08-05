@@ -29,7 +29,7 @@ public class CandourInvitationRequest {
     /** API uri. */
     private final URI uri;
     /** Request payload. */
-    private final CandourInvitationRequestPayload payload = new CandourInvitationRequestPayload();
+    private CandourInvitationRequestPayload payload = new CandourInvitationRequestPayload();
 
     /**
      * Constructor.
@@ -72,12 +72,21 @@ public class CandourInvitationRequest {
     }
 
     /**
-     * Get Request payload.
+     * Get request payload.
      * 
      * @return request payload
      */
     public CandourInvitationRequestPayload getPayload() {
         return payload;
+    }
+
+    /**
+     * Set request payload.
+     * 
+     * @param load request payload
+     */
+    public void setPayload(CandourInvitationRequestPayload load) {
+        payload = load;
     }
 
     /**
@@ -93,7 +102,7 @@ public class CandourInvitationRequest {
     public ClassicHttpRequest toHttpRequest() throws JsonProcessingException, InvalidKeyException,
             NoSuchAlgorithmException, IllegalStateException, UnsupportedEncodingException {
         String freezedPayload = payload.serialize();
-        final ClassicRequestBuilder rb = ClassicRequestBuilder.post().setUri("request.getURI()")
+        final ClassicRequestBuilder rb = ClassicRequestBuilder.post().setUri(uri)
                 .setHeader("Content-Type", "application/json").setHeader("X-AUTH-CLIENT", publicKey)
                 .setHeader("X-HMAC-SIGNATURE", calculateHmac(freezedPayload)).setCharset(Charset.forName("UTF-8"))
                 .setEntity(freezedPayload, ContentType.APPLICATION_JSON);
