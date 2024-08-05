@@ -18,7 +18,7 @@ public class CandourInvitationRequestPayload {
     /** Duration for the session to be valid. Defaults to 10 minutes. */
     private Duration invitationValidity = Duration.ofMinutes(10);
     /** How many verification tries User is allowed to have. Defaults to 5. */
-    private int tries = 5;
+    private Integer tries = 5;
     /** redirect callback url. */
     private String callbackUrl;
     /** redirect callback post url. */
@@ -69,7 +69,7 @@ public class CandourInvitationRequestPayload {
      * 
      * @return How many verification tries User is allowed to have. Defaults to 5
      */
-    public int getTries() {
+    public Integer getTries() {
         return tries;
     }
 
@@ -79,7 +79,7 @@ public class CandourInvitationRequestPayload {
      * @param numTries How many verification tries User is allowed to have. Defaults
      *                 to 5
      */
-    public void setTries(int numTries) {
+    public void setTries(Integer numTries) {
         tries = numTries;
     }
 

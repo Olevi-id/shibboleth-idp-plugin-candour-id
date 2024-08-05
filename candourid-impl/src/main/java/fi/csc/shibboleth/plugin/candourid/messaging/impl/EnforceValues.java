@@ -21,10 +21,8 @@ public class EnforceValues {
     private Boolean nationality;
     /** Whether user sex id matching is enforced. */
     private Boolean sex;
-    /**
-     * Number between 1-100, a threshold that name score must be equal or higher.
-     */
-    private int nameScore = 0;
+    /** Number between 1-100, a threshold that name score must be equal or higher. */
+    private Integer nameScore;
 
     /**
      * Whether expected date of birth matching is enforced.
@@ -158,7 +156,7 @@ public class EnforceValues {
      * @return Number between 1-100, a threshold that name score must be equal or
      *         higher
      */
-    public int getNameScore() {
+    public Integer getNameScore() {
         return nameScore;
     }
 
@@ -169,7 +167,7 @@ public class EnforceValues {
      * @param score Number between 1-100, a threshold that name score must be equal
      *              or higher
      */
-    public void setNameScore(int score) {
+    public void setNameScore(Integer score) {
         nameScore = score;
     }
 
