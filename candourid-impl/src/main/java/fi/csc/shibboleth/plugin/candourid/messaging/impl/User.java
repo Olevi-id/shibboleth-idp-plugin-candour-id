@@ -15,7 +15,7 @@ public class User {
     /** Date of birth in YYYY-MM-DD */
     private String dateOfBirth;
     /** National identification number. */
-    private String nationalIdenficationNumber;
+    private String nationalIdentificationNumber;
     /** Id document number. */
     private String idNumber;
     /** Id document expiration date. */
@@ -88,8 +88,8 @@ public class User {
      * 
      * @return National identification number
      */
-    public String getNationalIdenficationNumber() {
-        return nationalIdenficationNumber;
+    public String getNationalIdentificationNumber() {
+        return nationalIdentificationNumber;
     }
 
     /**
@@ -97,8 +97,8 @@ public class User {
      * 
      * @param number National identification number
      */
-    public void setNationalIdenficationNumber(String number) {
-        nationalIdenficationNumber = number;
+    public void setNationalIdentificationNumber(String number) {
+        nationalIdentificationNumber = number;
     }
 
     /**
