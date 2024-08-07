@@ -15,6 +15,9 @@
     <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer" p:placeholderPrefix="%{"
         p:placeholderSuffix="}" />
 
+    <bean id="InitializeCandourContext"
+        class="fi.csc.shibboleth.plugin.candourid.impl.InitializeCandourContext" scope="prototype" />
+        
     <bean id="CreateSession"
         class="fi.csc.shibboleth.plugin.candourid.impl.CreateSession" scope="prototype"
         p:httpServletRequestSupplier-ref="shibboleth.HttpServletRequestSupplier"
