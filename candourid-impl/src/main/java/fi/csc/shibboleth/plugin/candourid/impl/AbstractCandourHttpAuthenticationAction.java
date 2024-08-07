@@ -29,7 +29,8 @@ import org.opensaml.security.httpclient.HttpClientSecurityParameters;
 import org.opensaml.security.httpclient.HttpClientSecuritySupport;
 import org.slf4j.Logger;
 
-import net.shibboleth.idp.profile.AbstractProfileAction;
+import fi.csc.shibboleth.plugin.candourid.messaging.impl.CandourResponse;
+import fi.csc.shibboleth.plugin.candourid.messaging.impl.CandourResponseHandler;
 
 import net.shibboleth.shared.annotation.constraint.NonnullAfterInit;
 import net.shibboleth.shared.annotation.constraint.ThreadSafeAfterInit;
@@ -45,11 +46,11 @@ import net.shibboleth.shared.primitive.LoggerFactory;
  *            request.
  */
 @ThreadSafeAfterInit
-public abstract class AbstractHttpAction extends AbstractProfileAction {
+public abstract class AbstractCandourHttpAuthenticationAction extends AbstractCandourAuthenticationAction {
 
     /** Class logger. */
     @Nonnull
-    private final Logger log = LoggerFactory.getLogger(AbstractHttpAction.class);
+    private final Logger log = LoggerFactory.getLogger(AbstractCandourHttpAuthenticationAction.class);
 
     /**
      * The message encoder to encode the HTTP request into a {@link HttpUriRequest}.
@@ -108,18 +109,18 @@ public abstract class AbstractHttpAction extends AbstractProfileAction {
      * @throws IOException if there is an error producing a response
      */
     @Nullable
-    protected String executeHttpRequest(@Nonnull final ClassicHttpRequest request) throws IOException {
+    protected CandourResponse executeHttpRequest(@Nonnull final ClassicHttpRequest request) throws IOException {
 
         Constraint.isNotNull(request, "Request can not be null");
         final HttpClientContext clientContext = HttpClientContext.create();
         assert clientContext != null;
         HttpClientSecuritySupport.marshalSecurityParameters(clientContext, httpClientSecurityParameters, true);
         HttpClientSecuritySupport.addDefaultTLSTrustEngineCriteria(clientContext, request);
-        String httpResponse = httpClient.execute(request, clientContext, new CandourResponseHandler());
+        CandourResponse candourResponse = httpClient.execute(request, clientContext, new CandourResponseHandler());
         final String scheme = request.getScheme();
         assert scheme != null;
         HttpClientSecuritySupport.checkTLSCredentialEvaluated(clientContext, scheme);
-        return httpResponse;
+        return candourResponse;
 
     }
 

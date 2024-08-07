@@ -9,13 +9,21 @@ import java.security.NoSuchAlgorithmException;
 import javax.annotation.Nonnull;
 
 import org.apache.hc.core5.net.URIBuilder;
+import org.opensaml.profile.action.ActionSupport;
+import org.opensaml.profile.action.EventIds;
 import org.opensaml.profile.context.ProfileRequestContext;
 import org.slf4j.Logger;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 import fi.csc.shibboleth.plugin.candourid.messaging.impl.CandourInvitationRequest;
 import fi.csc.shibboleth.plugin.candourid.messaging.impl.CandourInvitationRequestPayload;
+import fi.csc.shibboleth.plugin.candourid.messaging.impl.CandourInvitationSuccessResponsePayload;
+import fi.csc.shibboleth.plugin.candourid.messaging.impl.CandourResponse;
 import jakarta.servlet.http.HttpServletRequest;
+import net.shibboleth.idp.authn.context.AuthenticationContext;
 import net.shibboleth.shared.annotation.constraint.NonnullAfterInit;
+import net.shibboleth.shared.annotation.constraint.NotEmpty;
 import net.shibboleth.shared.primitive.LoggerFactory;
 
 /**
@@ -24,11 +32,16 @@ import net.shibboleth.shared.primitive.LoggerFactory;
  * 
  * TODO: Set response to TBD context for further processing.
  */
-public class CreateSession extends AbstractHttpAction {
+public class CreateSession extends AbstractCandourHttpAuthenticationAction {
 
     /** Class logger. */
     @Nonnull
     private final Logger log = LoggerFactory.getLogger(CreateSession.class);
+
+    /** Parameter supplied to identify the per-conversation parameter. */
+    @Nonnull
+    @NotEmpty
+    public static final String CONVERSATION_KEY = "conversation";
 
     /** Candour API location. */
     private URI candouridURI;
@@ -94,16 +107,10 @@ public class CreateSession extends AbstractHttpAction {
 
     /** {@inheritDoc} */
     @Override
-    protected boolean doPreExecute(@Nonnull final ProfileRequestContext profileRequestContext) {
-        return true;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected void doExecute(@Nonnull final ProfileRequestContext profileRequestContext) {
+    protected void doExecute(@Nonnull final ProfileRequestContext profileRequestContext,
+            @Nonnull final AuthenticationContext authenticationContext) {
         CandourInvitationRequest message = new CandourInvitationRequest(candouridURI, clientPublicKey, clientHmacKey);
         message.setPayload(payload);
-
         // Clean following. Copied from rp auth module. ->
         HttpServletRequest request = getHttpServletRequestSupplier().get();
         final String scheme = request.getScheme();
@@ -113,22 +120,43 @@ public class CreateSession extends AbstractHttpAction {
         URI redirectUri = null;
         try {
             redirectUri = buildURIIgnoreDefaultPorts(scheme, serverName, request.getServerPort(),
-                    request.getContextPath() + request.getServletPath() + callbackServletPath);
+                    candourContext.getCallbackUri());
         } catch (URISyntaxException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
+            log.error("{} Exception occurred", getLogPrefix(), e1);
+            ActionSupport.buildEvent(profileRequestContext, EventIds.INVALID_PROFILE_CTX);
         }
         message.getPayload().setCallbackUrl(redirectUri.toString());
         message.getPayload().setCallbackPostEndpoint(redirectUri.toString());
+        log.debug("candour callback uri set as {}",candourContext.getCallbackUri());
         // Clean <-
-
+        CandourResponse response = null;
         try {
-            String result = executeHttpRequest(message.toHttpRequest());
-            log.info("{} Result is {}", getLogPrefix(), result);
+            response = executeHttpRequest(message.toHttpRequest());
         } catch (IOException | InvalidKeyException | NoSuchAlgorithmException | IllegalStateException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            log.error("{} Exception occurred", getLogPrefix(), e);
+            ActionSupport.buildEvent(profileRequestContext, EventIds.IO_ERROR);
         }
+        if (!response.indicateSuccess()) {
+            log.error("{} Candour response status code {} and payload {}", getLogPrefix(), response.getCode(),
+                    response.getPayload());
+            // TODO: use candour specific error event
+            ActionSupport.buildEvent(profileRequestContext, EventIds.IO_ERROR);
+            return;
+        }
+        CandourInvitationSuccessResponsePayload payload = null;
+        try {
+            payload = CandourInvitationSuccessResponsePayload.parse(response.getPayload());
+            log.debug("{} uri {} and session id {} parsed from payload", getLogPrefix(), payload.getRedirectUrl(),
+                    payload.getVerificationSessionId());
+        } catch (JsonProcessingException e) {
+            log.error("{} Candour response parsing failed.", getLogPrefix(), e);
+            // TODO: use candour specific error event
+            ActionSupport.buildEvent(profileRequestContext, EventIds.IO_ERROR);
+            return;
+        }
+        candourContext.setInvitationResponse(response.getPayload());
+        candourContext.setAuthenticationUri(payload.getRedirectUrl());
+        log.debug("{} Successfully received candour response payload {}", getLogPrefix(), response.getPayload());
 
     }
 
