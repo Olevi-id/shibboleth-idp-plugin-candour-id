@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -13,6 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * The payload for {@link CandourInvitationRequest}
  *
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class CandourInvitationRequestPayload {
 
     /** Duration for the session to be valid. Defaults to 10 minutes. */
