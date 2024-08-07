@@ -1,8 +1,11 @@
 package fi.csc.shibboleth.plugin.candourid.impl;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
@@ -23,7 +26,6 @@ import fi.csc.shibboleth.plugin.candourid.messaging.impl.CandourResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import net.shibboleth.idp.authn.context.AuthenticationContext;
 import net.shibboleth.shared.annotation.constraint.NonnullAfterInit;
-import net.shibboleth.shared.annotation.constraint.NotEmpty;
 import net.shibboleth.shared.primitive.LoggerFactory;
 
 /**
@@ -37,11 +39,6 @@ public class CreateSession extends AbstractCandourHttpAuthenticationAction {
     /** Class logger. */
     @Nonnull
     private final Logger log = LoggerFactory.getLogger(CreateSession.class);
-
-    /** Parameter supplied to identify the per-conversation parameter. */
-    @Nonnull
-    @NotEmpty
-    public static final String CONVERSATION_KEY = "conversation";
 
     /** Candour API location. */
     private URI candouridURI;
@@ -113,9 +110,16 @@ public class CreateSession extends AbstractCandourHttpAuthenticationAction {
             log.error("{} Exception occurred", getLogPrefix(), e1);
             ActionSupport.buildEvent(profileRequestContext, EventIds.INVALID_PROFILE_CTX);
         }
-        message.getPayload().setCallbackUrl(redirectUri.toString());
-        message.getPayload().setCallbackPostEndpoint(redirectUri.toString());
-        log.debug("candour callback uri set as {}",candourContext.getCallbackUri());
+        try {
+            message.getPayload()
+                    .setCallbackUrl(URLDecoder.decode(redirectUri.toString(), StandardCharsets.UTF_8.name()));
+        } catch (UnsupportedEncodingException e1) {
+            log.error("{} Could not url decode string", getLogPrefix(), redirectUri.toString());
+            // TODO: use candour specific error event
+            ActionSupport.buildEvent(profileRequestContext, EventIds.IO_ERROR);
+            return;
+        }
+        log.debug("candour callback uri set as {}", candourContext.getCallbackUri());
         // Clean <-
         CandourResponse response = null;
         try {
