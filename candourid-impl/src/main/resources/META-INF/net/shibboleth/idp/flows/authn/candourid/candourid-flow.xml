@@ -5,7 +5,25 @@
       parent="authn.abstract">
 
     <action-state id="Start">
-        <evaluate expression="CreateSession" />
+        <evaluate expression="InitializeCandourContext" />
+        <evaluate expression="'proceed'" />
+        <transition on="proceed" to="AuthnRequest" />
+    </action-state>
+    
+    <view-state id="AuthnRequest"
+        view="externalRedirect:#{flowRequestContext.getFlowScope().get('authenticationUri')}">
+        <attribute name="csrf_excluded" value="true" type="boolean" />
+        <on-render>
+            <evaluate
+                expression="opensamlProfileRequestContext.getSubcontext(T(net.shibboleth.idp.authn.context.AuthenticationContext)).getSubcontext(T(fi.csc.shibboleth.plugin.candourid.context.CandourContext)).setCallbackUri(flowExecutionUrl + '&amp;_eventId_proceed=1')" />
+            <evaluate expression="CreateSession" />
+            <evaluate expression="opensamlProfileRequestContext.getSubcontext(T(net.shibboleth.idp.authn.context.AuthenticationContext)).getSubcontext(T(fi.csc.shibboleth.plugin.candourid.context.CandourContext)).getAuthenticationUri()" result="flowScope.authenticationUri" />
+        </on-render>
+        <transition to="ExtractAuthenticationResponse" />
+    </view-state>
+    
+    <action-state id="ExtractAuthenticationResponse">
+        <evaluate expression="ExtractAuthenticationResponse" />
         <evaluate expression="'proceed'" />
         <transition on="proceed" to="proceed" />
     </action-state>
