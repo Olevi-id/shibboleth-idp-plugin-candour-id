@@ -13,7 +13,7 @@
             <directory>../candourid-api/target</directory>
             <outputDirectory>webapp/WEB-INF/lib</outputDirectory>
             <includes>
-                <include>candourid-impl-*.jar</include>
+                <include>candourid-api-*.jar</include>
             </includes>
             <excludes>
                 <exclude>*test*.jar</exclude>
