@@ -27,6 +27,19 @@
         p:clientPublicKey="%{candour.clientPublicKey}"
         p:clientHmacKey="%{candour.clientHmacKey}"
         p:payload-ref="CandourInvitationRequestPayload" />
+    
+    <bean id="ExtractAuthenticationResponse"
+        class="fi.csc.shibboleth.plugin.candourid.impl.ExtractAuthenticationResponse" scope="prototype"
+        p:httpServletRequestSupplier-ref="shibboleth.HttpServletRequestSupplier" />
+        
+    <bean id="GetUserClaims"
+        class="fi.csc.shibboleth.plugin.candourid.impl.GetUserClaims" scope="prototype"
+        p:httpServletRequestSupplier-ref="shibboleth.HttpServletRequestSupplier"
+        p:httpClient="#{getObject('candour.authn.HttpClient') ?: getObject('shibboleth.InternalHttpClient')}"
+        p:httpClientSecurityParameters="#{getObject('candour.authn.HttpClientSecurityParameters')}"
+        p:candouridURI="%{candour.apiURI}"
+        p:clientPublicKey="%{candour.clientPublicKey}"
+        p:clientHmacKey="%{candour.clientHmacKey}" />
 
     <bean id="CandourInvitationRequestPayload"
         class="fi.csc.shibboleth.plugin.candourid.messaging.impl.CandourInvitationRequestPayload" scope="prototype"
