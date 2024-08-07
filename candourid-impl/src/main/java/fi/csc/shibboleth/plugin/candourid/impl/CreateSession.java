@@ -52,9 +52,6 @@ public class CreateSession extends AbstractCandourHttpAuthenticationAction {
     /** Candour API client hmac key. */
     private String clientHmacKey;
 
-    /** callback servlet path. */
-    private String callbackServletPath;
-
     /** The payload to send to Candour. */
     @NonnullAfterInit
     private CandourInvitationRequestPayload payload;
@@ -94,15 +91,6 @@ public class CreateSession extends AbstractCandourHttpAuthenticationAction {
      */
     public void setPayload(CandourInvitationRequestPayload content) {
         payload = content;
-    }
-
-    /**
-     * Set callback servlet path.
-     * 
-     * @param path callback servlet path
-     */
-    public void setCallbackServletPath(String path) {
-        callbackServletPath = path;
     }
 
     /** {@inheritDoc} */

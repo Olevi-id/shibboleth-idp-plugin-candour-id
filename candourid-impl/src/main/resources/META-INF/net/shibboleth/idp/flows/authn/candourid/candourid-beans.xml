@@ -26,7 +26,6 @@
         p:candouridURI="%{candour.apiURI}"
         p:clientPublicKey="%{candour.clientPublicKey}"
         p:clientHmacKey="%{candour.clientHmacKey}"
-        p:callbackServletPath="%{candour.externalAuthnPath:/Authn/Candour}"
         p:payload-ref="CandourInvitationRequestPayload" />
 
     <bean id="CandourInvitationRequestPayload"
