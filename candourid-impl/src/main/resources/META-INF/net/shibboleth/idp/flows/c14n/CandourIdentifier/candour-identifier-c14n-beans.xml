@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:c="http://www.springframework.org/schema/c"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
+                           
+       default-init-method="initialize"
+       default-destroy-method="destroy">
+
+    <bean id="SimpleCandourIdentifierCanonicalization"
+        class="fi.csc.shibboleth.plugin.candourid.impl.SimpleCandourIdentifierCanonicalization" scope="prototype"
+        p:lowercase="#{getObject('candour.authn.c14n.identifier.Lowercase') ?: %{candour.authn.c14n.identifier.lowercase:false}}"
+        p:uppercase="#{getObject('candour.authn.c14n.identifier.Uppercase') ?: %{candour.authn.c14n.identifier.uppercas:false}}"
+        p:trim="#{getObject('candour.authn.c14n.identifier.Trim') ?: %{candour.authn.c14n.identifier.trim:true}}"
+        p:transforms="#{getObject('candour.authn.c14n.identifier.Transforms')}" />
+    
+</beans>
