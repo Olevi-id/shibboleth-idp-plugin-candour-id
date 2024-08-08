@@ -34,5 +34,21 @@
                 c:_0="#{'%{candourid.authn.supportedPrincipals:}'.trim()}" />
         </property>
     </bean>
+    
+    <bean p:id="CandourIdentifier" class="net.shibboleth.idp.authn.principal.GenericPrincipalService"
+            c:claz="fi.csc.shibboleth.plugin.candourid.principal.CandourIdentifierPrincipal">
+        <constructor-arg name="serializer">
+            <bean class="net.shibboleth.idp.authn.principal.SimplePrincipalSerializer"
+                c:claz="fi.csc.shibboleth.plugin.candourid.principal.CandourIdentifierPrincipal" c:name="subject" />
+        </constructor-arg>
+    </bean>
+    
+    <bean id="c14n/CandourIdentifier"
+        class="net.shibboleth.idp.authn.SubjectCanonicalizationFlowDescriptor" >
+        <property name="activationCondition">
+            <bean class="fi.csc.shibboleth.plugin.candourid.impl.SimpleCandourIdentifierCanonicalization.ActivationCondition" 
+            c:disabled="%{candour.authn.c14n.candouridentifier.disabled:false}"/>
+        </property>
+    </bean>
 
 </beans>
