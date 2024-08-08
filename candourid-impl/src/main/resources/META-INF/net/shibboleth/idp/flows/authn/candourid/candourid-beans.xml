@@ -17,7 +17,16 @@
 
     <bean id="InitializeCandourContext"
         class="fi.csc.shibboleth.plugin.candourid.impl.InitializeCandourContext" scope="prototype" />
-        
+
+    <bean id="FlowStartPopulateAuditContext" parent="shibboleth.AbstractPopulateAuditContext"
+        p:fieldExtractors="#{getObject('shibboleth.FlowStartAuditExtractors') ?: getObject('shibboleth.DefaultFlowStartAuditExtractors')}" />
+
+    <bean id="WriteAuditLog" class="net.shibboleth.idp.profile.audit.impl.WriteAuditLog" scope="prototype"
+        p:formattingMap-ref="shibboleth.AuditFormattingMap"
+        p:dateTimeFormat="#{getObject('shibboleth.AuditDateTimeFormat')}"
+        p:useDefaultTimeZone="#{getObject('shibboleth.AuditDefaultTimeZone') ?: false}"
+        p:httpServletRequestSupplier-ref="shibboleth.HttpServletRequestSupplier" />
+
     <bean id="CreateSession"
         class="fi.csc.shibboleth.plugin.candourid.impl.CreateSession" scope="prototype"
         p:httpServletRequestSupplier-ref="shibboleth.HttpServletRequestSupplier"
@@ -40,6 +49,26 @@
         p:candouridURI="%{candour.apiURI}"
         p:clientPublicKey="%{candour.clientPublicKey}"
         p:clientHmacKey="%{candour.clientHmacKey}" />
+
+    <bean id="candour.auth.principal.ClaimSourceIds" parent="shibboleth.CommaDelimStringArray"
+        c:_0="#{'%{candour.auth.principal.ClaimSourceIds}}'.trim()}" />
+
+    <bean id="ValidateAuthentication"
+        class="fi.csc.shibboleth.plugin.candourid.impl.ValidateAuthentication" scope="prototype"
+        p:claimSourceIds-ref="candour.auth.principal.ClaimSourceIds" />
+
+    <bean id="PopulateSubjectCanonicalizationContext"
+        class="net.shibboleth.idp.authn.impl.PopulateSubjectCanonicalizationContext" scope="prototype"
+        p:availableFlows-ref="candour.authn.c14n.PostLoginSubjectCanonicalizationFlows" />
+
+    <bean id="candour.authn.c14n.PostLoginSubjectCanonicalizationFlows"
+        class="net.shibboleth.shared.spring.factory.CombiningListFactoryBean"
+        p:firstList-ref="InbuiltPostLoginSubjectCanonicalizationFlows"
+        p:secondList-ref="shibboleth.PostLoginSubjectCanonicalizationFlows" />
+        
+    <util:list id="InbuiltPostLoginSubjectCanonicalizationFlows">
+        <ref bean="c14n/CandourIdentifier" />
+    </util:list>
 
     <bean id="CandourInvitationRequestPayload"
         class="fi.csc.shibboleth.plugin.candourid.messaging.impl.CandourInvitationRequestPayload" scope="prototype"

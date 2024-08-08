@@ -6,6 +6,8 @@
 
     <action-state id="Start">
         <evaluate expression="InitializeCandourContext" />
+        <evaluate expression="FlowStartPopulateAuditContext" />
+        <evaluate expression="WriteAuditLog" />
         <evaluate expression="'proceed'" />
         <transition on="proceed" to="AuthnRequest" />
     </action-state>
@@ -26,8 +28,24 @@
         <evaluate expression="ExtractAuthenticationResponse" />
         <evaluate expression="GetUserClaims" />
         <evaluate expression="'proceed'" />
-        <transition on="proceed" to="proceed" />
+        <transition on="proceed" to="FinalizeResponse" />
     </action-state>
+    
+    <action-state id="FinalizeResponse">
+       <evaluate expression="ValidateAuthentication" />
+       <evaluate expression="PopulateSubjectCanonicalizationContext" />
+       <evaluate expression="WriteAuditLog" />
+       <evaluate expression="'proceed'" />        
+       <transition on="proceed" to="CallSubjectCanonicalization" />   
+    </action-state>
+
+    <!-- Call the c14n subflow here, and allow an error to trigger a flow reselect. -->
+    <subflow-state id="CallSubjectCanonicalization" subflow="c14n">
+        <input name="calledAsSubflow" value="true" />
+        <transition on="proceed" to="proceed" />
+
+        <transition on="SubjectCanonicalizationError" to="ReselectFlow" />
+    </subflow-state>
 
     <global-transitions>        
         <!-- Route everything out as a graceful failure to allow subsequent options to run. -->
