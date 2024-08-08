@@ -5,6 +5,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Map;
 
 import javax.annotation.Nonnull;
 
@@ -14,6 +15,8 @@ import org.opensaml.profile.context.ProfileRequestContext;
 import org.slf4j.Logger;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import fi.csc.shibboleth.plugin.candourid.messaging.impl.CandourInvitationSuccessResponsePayload;
 import fi.csc.shibboleth.plugin.candourid.messaging.impl.CandourResponse;
@@ -79,7 +82,8 @@ public class GetUserClaims extends AbstractCandourHttpAuthenticationAction {
         CandourResponse response = null;
         try {
             response = executeHttpRequest(message.toHttpRequest());
-        } catch (IOException | InvalidKeyException | NoSuchAlgorithmException | IllegalStateException | URISyntaxException e) {
+        } catch (IOException | InvalidKeyException | NoSuchAlgorithmException | IllegalStateException
+                | URISyntaxException e) {
             log.error("{} Exception occurred", getLogPrefix(), e);
             ActionSupport.buildEvent(profileRequestContext, EventIds.IO_ERROR);
             return;
@@ -91,17 +95,17 @@ public class GetUserClaims extends AbstractCandourHttpAuthenticationAction {
             ActionSupport.buildEvent(profileRequestContext, EventIds.IO_ERROR);
             return;
         }
-        CandourInvitationSuccessResponsePayload payload = null;
         try {
-            payload = CandourInvitationSuccessResponsePayload.parse(response.getPayload());
-            log.debug("{} uri {} and session id {} parsed from payload", getLogPrefix(), payload.getRedirectUrl(),
-                    payload.getVerificationSessionId());
+            candourContext.setResultClaims(
+                    new ObjectMapper().readValue(response.getPayload(), new TypeReference<Map<String, Object>>() {
+                    }));
         } catch (JsonProcessingException e) {
-            log.error("{} Candour response parsing failed.", getLogPrefix(), e);
+            log.error("{} Candour response claims parsing failed.", getLogPrefix(), e);
             // TODO: use candour specific error event
             ActionSupport.buildEvent(profileRequestContext, EventIds.IO_ERROR);
             return;
         }
+        //TODO: Next action should validate result claims like invitation and status
         log.debug("{} Successfully received candour response payload {}", getLogPrefix(), response.getPayload());
 
     }
