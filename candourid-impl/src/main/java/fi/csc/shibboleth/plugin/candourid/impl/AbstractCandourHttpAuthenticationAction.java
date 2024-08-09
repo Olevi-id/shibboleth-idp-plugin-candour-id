@@ -1,16 +1,13 @@
 package fi.csc.shibboleth.plugin.candourid.impl;
 
 import java.io.IOException;
-import java.util.function.Function;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.apache.hc.client5.http.classic.HttpClient;
-import org.apache.hc.client5.http.classic.methods.HttpUriRequest;
 import org.apache.hc.client5.http.protocol.HttpClientContext;
 import org.apache.hc.core5.http.ClassicHttpRequest;
-import org.opensaml.profile.context.ProfileRequestContext;
 import org.opensaml.security.httpclient.HttpClientSecurityParameters;
 import org.opensaml.security.httpclient.HttpClientSecuritySupport;
 import org.slf4j.Logger;
@@ -37,12 +34,6 @@ public abstract class AbstractCandourHttpAuthenticationAction extends AbstractCa
     /** Class logger. */
     @Nonnull
     private final Logger log = LoggerFactory.getLogger(AbstractCandourHttpAuthenticationAction.class);
-
-    /**
-     * The message encoder to encode the HTTP request into a {@link HttpUriRequest}.
-     */
-    @NonnullAfterInit
-    private Function<ProfileRequestContext, ClassicHttpRequest> httpRequestEncoderStrategy;
 
     /** Http client for contacting the endpoint. */
     @NonnullAfterInit
