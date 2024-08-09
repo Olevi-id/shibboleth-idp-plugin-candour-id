@@ -19,6 +19,7 @@ import org.slf4j.Logger;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
+import fi.csc.shibboleth.plugin.candourid.context.CandourContext;
 import fi.csc.shibboleth.plugin.candourid.messaging.impl.CandourInvitationRequest;
 import fi.csc.shibboleth.plugin.candourid.messaging.impl.CandourInvitationRequestPayload;
 import fi.csc.shibboleth.plugin.candourid.messaging.impl.CandourInvitationSuccessResponsePayload;
@@ -26,13 +27,21 @@ import fi.csc.shibboleth.plugin.candourid.messaging.impl.CandourResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import net.shibboleth.idp.authn.context.AuthenticationContext;
 import net.shibboleth.shared.annotation.constraint.NonnullAfterInit;
+import net.shibboleth.shared.component.ComponentInitializationException;
 import net.shibboleth.shared.primitive.LoggerFactory;
 
 /**
- * TODO: Test class is initialized properly before moving to doExecute. General
- * cleanup and unit tests needed.
- * 
- * TODO: Set response to TBD context for further processing.
+ * An {@link AbstractCandourHttpAuthenticationAction action} that forms and
+ * sends a invitation request to Candour and stores the response to
+ * {@link CandourContext}.
+ *
+ * @event {@link org.opensaml.profile.action.EventIds#PROCEED_EVENT_ID}
+ * @event {@link org.opensaml.profile.action.EventIdsEventIds.INVALID_PROFILE_CTX}
+ * @event {@link org.opensaml.profile.action.EventIdsEventIds.IO_ERROR}
+ * @post {@link CandourContext#getInvitationResponse()} returns invitation
+ *       response.
+ * @post {@link CandourContext#getAuthenticationUri()} returns authentication
+ *       uri.
  */
 public class CreateSession extends AbstractCandourHttpAuthenticationAction {
 
@@ -41,12 +50,15 @@ public class CreateSession extends AbstractCandourHttpAuthenticationAction {
     private final Logger log = LoggerFactory.getLogger(CreateSession.class);
 
     /** Candour API location. */
+    @NonnullAfterInit
     private URI candouridURI;
 
     /** Candour API client public key. */
+    @NonnullAfterInit
     private String clientPublicKey;
 
     /** Candour API client hmac key. */
+    @NonnullAfterInit
     private String clientHmacKey;
 
     /** The payload to send to Candour. */
@@ -59,7 +71,8 @@ public class CreateSession extends AbstractCandourHttpAuthenticationAction {
      * @param uri Candour API location
      * @throws URISyntaxException
      */
-    public void setCandouridURI(String uri) throws URISyntaxException {
+    public void setCandouridURI(@Nonnull String uri) throws URISyntaxException {
+        assert uri != null;
         candouridURI = new URI(uri);
     }
 
@@ -68,7 +81,8 @@ public class CreateSession extends AbstractCandourHttpAuthenticationAction {
      * 
      * @param publicKey Candour API client public key
      */
-    public void setClientPublicKey(String publicKey) {
+    public void setClientPublicKey(@Nonnull String publicKey) {
+        assert publicKey != null;
         clientPublicKey = publicKey;
     }
 
@@ -77,7 +91,8 @@ public class CreateSession extends AbstractCandourHttpAuthenticationAction {
      * 
      * @param hmacKey Candour API client hmac key
      */
-    public void setClientHmacKey(String hmacKey) {
+    public void setClientHmacKey(@Nonnull String hmacKey) {
+        assert hmacKey != null;
         clientHmacKey = hmacKey;
     }
 
@@ -86,70 +101,91 @@ public class CreateSession extends AbstractCandourHttpAuthenticationAction {
      * 
      * @param content the payload to send to Candour. Implement a strategy to set it
      */
-    public void setPayload(CandourInvitationRequestPayload content) {
+    public void setPayload(@Nonnull CandourInvitationRequestPayload content) {
+        assert content != null;
         payload = content;
+    }
+
+    @Override
+    protected void doInitialize() throws ComponentInitializationException {
+        super.doInitialize();
+
+        if (candouridURI == null) {
+            throw new ComponentInitializationException("CandouridURI cannot be null");
+        }
+        if (clientPublicKey == null) {
+            throw new ComponentInitializationException("ClientPublicKey cannot be null");
+        }
+        if (clientHmacKey == null) {
+            throw new ComponentInitializationException("ClientHmacKey cannot be null");
+        }
+        if (payload == null) {
+            throw new ComponentInitializationException("Payload cannot be null");
+        }
     }
 
     /** {@inheritDoc} */
     @Override
     protected void doExecute(@Nonnull final ProfileRequestContext profileRequestContext,
             @Nonnull final AuthenticationContext authenticationContext) {
+
         CandourInvitationRequest message = new CandourInvitationRequest(candouridURI, clientPublicKey, clientHmacKey);
         message.setPayload(payload);
-        // Clean following. Copied from rp auth module. ->
-        HttpServletRequest request = getHttpServletRequestSupplier().get();
-        final String scheme = request.getScheme();
-        assert scheme != null;
-        final String serverName = request.getServerName();
-        assert serverName != null;
-        URI redirectUri = null;
-        try {
-            redirectUri = buildURIIgnoreDefaultPorts(scheme, serverName, request.getServerPort(),
-                    candourContext.getCallbackUri());
-        } catch (URISyntaxException e1) {
-            log.error("{} Exception occurred", getLogPrefix(), e1);
+        String uri = buildCallbackUri();
+        if (uri == null) {
             ActionSupport.buildEvent(profileRequestContext, EventIds.INVALID_PROFILE_CTX);
-        }
-        try {
-            message.getPayload()
-                    .setCallbackUrl(URLDecoder.decode(redirectUri.toString(), StandardCharsets.UTF_8.name()));
-        } catch (UnsupportedEncodingException e1) {
-            log.error("{} Could not url decode string", getLogPrefix(), redirectUri.toString());
-            // TODO: use candour specific error event
-            ActionSupport.buildEvent(profileRequestContext, EventIds.IO_ERROR);
             return;
         }
-        log.debug("candour callback uri set as {}", candourContext.getCallbackUri());
-        // Clean <-
+        message.getPayload().setCallbackUrl(buildCallbackUri());
+
         CandourResponse response = null;
         try {
             response = executeHttpRequest(message.toHttpRequest());
         } catch (IOException | InvalidKeyException | NoSuchAlgorithmException | IllegalStateException e) {
             log.error("{} Exception occurred", getLogPrefix(), e);
             ActionSupport.buildEvent(profileRequestContext, EventIds.IO_ERROR);
+            return;
         }
         if (!response.indicateSuccess()) {
-            log.error("{} Candour response status code {} and payload {}", getLogPrefix(), response.getCode(),
-                    response.getPayload());
-            // TODO: use candour specific error event
+            log.error("{} Candour invitation response indicates error. Status code {}, payload {}", getLogPrefix(),
+                    response.getCode(), response.getPayload());
             ActionSupport.buildEvent(profileRequestContext, EventIds.IO_ERROR);
             return;
         }
+        // Parse success response
         CandourInvitationSuccessResponsePayload payload = null;
         try {
             payload = CandourInvitationSuccessResponsePayload.parse(response.getPayload());
-            log.debug("{} uri {} and session id {} parsed from payload", getLogPrefix(), payload.getRedirectUrl(),
-                    payload.getVerificationSessionId());
         } catch (JsonProcessingException e) {
             log.error("{} Candour response parsing failed.", getLogPrefix(), e);
-            // TODO: use candour specific error event
             ActionSupport.buildEvent(profileRequestContext, EventIds.IO_ERROR);
             return;
         }
         candourContext.setInvitationResponse(response.getPayload());
         candourContext.setAuthenticationUri(payload.getRedirectUrl());
-        log.debug("{} Successfully received candour response payload {}", getLogPrefix(), response.getPayload());
+    }
 
+    /**
+     * Builds callback Uri.
+     * 
+     * @return callback Uri
+     */
+    private String buildCallbackUri() {
+
+        HttpServletRequest request = getHttpServletRequestSupplier().get();
+        final String scheme = request.getScheme();
+        assert scheme != null;
+        final String serverName = request.getServerName();
+        assert serverName != null;
+        String callbackUri = null;
+        try {
+            callbackUri = URLDecoder.decode(buildURIIgnoreDefaultPorts(scheme, serverName, request.getServerPort(),
+                    candourContext.getCallbackUri()).toString(), StandardCharsets.UTF_8.name());
+        } catch (URISyntaxException | UnsupportedEncodingException e) {
+            log.error("{} Exception occurred", getLogPrefix(), e);
+            return null;
+        }
+        return callbackUri;
     }
 
     /**
