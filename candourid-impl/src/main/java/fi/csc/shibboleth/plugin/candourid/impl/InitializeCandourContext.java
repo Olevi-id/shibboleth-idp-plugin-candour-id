@@ -12,7 +12,10 @@ import net.shibboleth.idp.authn.AbstractAuthenticationAction;
 import net.shibboleth.idp.authn.context.AuthenticationContext;
 
 /**
- * Initializes candour context.
+ * An {@link AbstractAuthenticationAction action} that instantiates {@link CandourContext} as a sub context of {@link AuthenticationContext}.
+ *
+ * @event {@link org.opensaml.profile.action.EventIds#PROCEED_EVENT_ID}
+ * @post {@link CandourContext} is a sub context of {@link AuthenticationContext}
  */
 public class InitializeCandourContext extends AbstractAuthenticationAction {
 
