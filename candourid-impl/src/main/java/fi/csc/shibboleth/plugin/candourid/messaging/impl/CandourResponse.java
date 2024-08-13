@@ -6,7 +6,7 @@ public class CandourResponse {
 
     final private String payload;
 
-    CandourResponse(int code, String payload) {
+    public CandourResponse(int code, String payload) {
         this.code = code;
         this.payload = payload;
     }
