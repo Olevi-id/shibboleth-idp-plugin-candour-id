@@ -36,11 +36,23 @@
         p:clientPublicKey="%{candour.clientPublicKey}"
         p:clientHmacKey="%{candour.clientHmacKey}"
         p:payload-ref="CandourInvitationRequestPayload" />
-    
+
     <bean id="ExtractAuthenticationResponse"
         class="fi.csc.shibboleth.plugin.candourid.impl.ExtractAuthenticationResponse" scope="prototype"
+        p:mappedStatuses-ref="candour.redirect.DefaultMappedErrors"
         p:httpServletRequestSupplier-ref="shibboleth.HttpServletRequestSupplier" />
-        
+
+    <bean id="candour.redirect.DefaultMappedErrors"
+        class="org.springframework.beans.factory.config.MapFactoryBean">
+        <property name="sourceMap">
+            <map>
+                <entry key="cancelled" value="CandourRedirectRespCancelled" />
+                <entry key="cancelledUnsupportedDevice" value="CandourRedirectRespCancelledUD" />
+                <entry key="cancelledUnsupportedId" value="CandourRedirectRespCancelledUId" />
+            </map>
+        </property>
+    </bean>
+
     <bean id="GetUserClaims"
         class="fi.csc.shibboleth.plugin.candourid.impl.GetUserClaims" scope="prototype"
         p:httpServletRequestSupplier-ref="shibboleth.HttpServletRequestSupplier"
