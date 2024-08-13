@@ -81,6 +81,16 @@
     <util:list id="InbuiltPostLoginSubjectCanonicalizationFlows">
         <ref bean="c14n/CandourIdentifier" />
     </util:list>
+    
+    <!--  
+    <bean id="WriteAuditLogInTransition"
+        class="net.shibboleth.idp.plugin.authn.oidc.rp.audit.impl.TransitionActionWriteAuditLog" scope="prototype"
+        p:profileContextLookupStrategy-ref="shibboleth.ChildLookup.ProxyProfileRequestContext"
+        p:formattingMap-ref="shibboleth.AuditFormattingMap"
+        p:dateTimeFormat="#{getObject('shibboleth.AuditDateTimeFormat')}"
+        p:useDefaultTimeZone="#{getObject('shibboleth.AuditDefaultTimeZone') ?: false}"
+        p:httpServletRequestSupplier-ref="shibboleth.HttpServletRequestSupplier" />
+    -->    
 
     <bean id="CandourInvitationRequestPayload"
         class="fi.csc.shibboleth.plugin.candourid.messaging.impl.CandourInvitationRequestPayload" scope="prototype"
