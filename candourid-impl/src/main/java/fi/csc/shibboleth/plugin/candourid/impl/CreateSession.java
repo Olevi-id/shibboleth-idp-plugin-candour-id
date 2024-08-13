@@ -19,6 +19,7 @@ import org.slf4j.Logger;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
+import fi.csc.shibboleth.plugin.candourid.CandourEventIds;
 import fi.csc.shibboleth.plugin.candourid.context.CandourContext;
 import fi.csc.shibboleth.plugin.candourid.messaging.impl.CandourInvitationRequest;
 import fi.csc.shibboleth.plugin.candourid.messaging.impl.CandourInvitationRequestPayload;
@@ -37,7 +38,9 @@ import net.shibboleth.shared.primitive.LoggerFactory;
  *
  * @event {@link org.opensaml.profile.action.EventIds#PROCEED_EVENT_ID}
  * @event {@link org.opensaml.profile.action.EventIdsEventIds.INVALID_PROFILE_CTX}
- * @event {@link org.opensaml.profile.action.EventIdsEventIds.IO_ERROR}
+ * @event {@link fi.csc.shibboleth.plugin.candourid.CandourEventIds.CANDOUR_API_COMM_FAILURE}
+ * @event {@link fi.csc.shibboleth.plugin.candourid.CandourEventIds.CANDOUR_API_RESP_FAILURE}
+ * @event {@link fi.csc.shibboleth.plugin.candourid.CandourEventIds.CANDOUR_API_RESP_MALFORMED}
  * @post {@link CandourContext#getInvitationResponse()} returns invitation
  *       response.
  * @post {@link CandourContext#getAuthenticationUri()} returns authentication
@@ -143,13 +146,13 @@ public class CreateSession extends AbstractCandourHttpAuthenticationAction {
             response = executeHttpRequest(message.toHttpRequest());
         } catch (IOException | InvalidKeyException | NoSuchAlgorithmException | IllegalStateException e) {
             log.error("{} Exception occurred", getLogPrefix(), e);
-            ActionSupport.buildEvent(profileRequestContext, EventIds.IO_ERROR);
+            ActionSupport.buildEvent(profileRequestContext, CandourEventIds.CANDOUR_API_COMM_FAILURE);
             return;
         }
         if (!response.indicateSuccess()) {
             log.error("{} Candour invitation response indicates error. Status code {}, payload {}", getLogPrefix(),
                     response.getCode(), response.getPayload());
-            ActionSupport.buildEvent(profileRequestContext, EventIds.IO_ERROR);
+            ActionSupport.buildEvent(profileRequestContext, CandourEventIds.CANDOUR_API_RESP_FAILURE);
             return;
         }
         // Parse success response
@@ -158,7 +161,7 @@ public class CreateSession extends AbstractCandourHttpAuthenticationAction {
             payload = CandourInvitationSuccessResponsePayload.parse(response.getPayload());
         } catch (JsonProcessingException e) {
             log.error("{} Candour response parsing failed.", getLogPrefix(), e);
-            ActionSupport.buildEvent(profileRequestContext, EventIds.IO_ERROR);
+            ActionSupport.buildEvent(profileRequestContext, CandourEventIds.CANDOUR_API_RESP_MALFORMED);
             return;
         }
         candourContext.setInvitationResponse(response.getPayload());
