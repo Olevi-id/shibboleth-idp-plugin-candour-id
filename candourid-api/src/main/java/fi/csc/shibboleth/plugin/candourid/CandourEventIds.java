@@ -21,11 +21,39 @@ public final class CandourEventIds {
     public static final String CANDOUR_API_RESP_FAILURE = "CandourApiRespFailure";
 
     /**
-     * Candour API response cannot be decoded..
+     * Candour API response cannot be decoded.
      */
     @Nonnull
     @NotEmpty
     public static final String CANDOUR_API_RESP_MALFORMED = "CandourApiRespMalformed";
+    
+    /**
+     * Candour redirect response cannot be decoded.
+     */
+    @Nonnull
+    @NotEmpty
+    public static final String CANDOUR_REDIRECT_RESP_MALFORMED = "CandourRedirectRespMalformed";
+    
+    /**
+     * Candour redirect response indicated user cancelled.
+     */
+    @Nonnull
+    @NotEmpty
+    public static final String CANDOUR_REDIRECT_RESP_CANCELLED = "CandourRedirectRespCancelled";
+    
+    /**
+     * Candour redirect response indicated user cancelled due to unsupported device.
+     */
+    @Nonnull
+    @NotEmpty
+    public static final String CANDOUR_REDIRECT_RESP_CANCELLED_U_D = "CandourRedirectRespCancelledUD";
+    
+    /**
+     * Candour redirect response indicated user cancelled due to unsupported id.
+     */
+    @Nonnull
+    @NotEmpty
+    public static final String CANDOUR_REDIRECT_RESP_CANCELLED_U_ID = "CandourRedirectRespCancelledUId";
 
     /**
      * Constructor.
