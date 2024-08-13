@@ -68,7 +68,8 @@ public class CandourContext extends BaseContext {
      * 
      * @param uri Uri to authenticate user
      */
-    public void setAuthenticationUri(@Nullable String uri) {
+    public void setAuthenticationUri(@Nonnull String uri) {
+        assert uri != null;
         authenticationUri = uri;
     }
 
