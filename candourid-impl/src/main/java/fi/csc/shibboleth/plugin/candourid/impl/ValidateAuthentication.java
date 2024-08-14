@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.security.auth.Subject;
 
 import org.opensaml.profile.action.ActionSupport;
@@ -19,14 +20,37 @@ import net.shibboleth.idp.attribute.StringAttributeValue;
 import net.shibboleth.idp.authn.AbstractValidationAction;
 import net.shibboleth.idp.authn.context.AuthenticationContext;
 import net.shibboleth.idp.authn.principal.IdPAttributePrincipal;
+import net.shibboleth.shared.annotation.constraint.NonnullAfterInit;
 import net.shibboleth.shared.annotation.constraint.NotEmpty;
 import net.shibboleth.shared.collection.CollectionSupport;
+import net.shibboleth.shared.component.ComponentInitializationException;
 import net.shibboleth.shared.primitive.LoggerFactory;
 import net.shibboleth.shared.primitive.StringSupport;
 
 /**
+ * An action that builds an {@link AuthenticationResult} based on an Candour API
+ * result response.
  * 
- *
+ * <p>
+ * A {@link CandourContext} is used as the basis of the result, which stores
+ * Candour API result response claims.
+ * 
+ * <p>
+ * Actual validation is all upstream of this action, but the use of the
+ * ValidationAction subclass is a convenience for auditing and handling the
+ * result.
+ * </p>
+ * 
+ * @event {@link EventIds#PROCEED_EVENT_ID}
+ * @event {@link EventIds#INVALID_PROFILE_CTX}
+ * @pre
+ * 
+ *      <pre>
+ *      ProfileRequestContext.getSubcontext(AuthenticationContext.class).getAttemptedFlow() != null
+ *      </pre>
+ * 
+ * @post {@link net.shibboleth.idp.authn.AuthenticationResult} is saved to the
+ *       {@link AuthenticationContext}.
  */
 public class ValidateAuthentication extends AbstractValidationAction {
 
@@ -39,10 +63,15 @@ public class ValidateAuthentication extends AbstractValidationAction {
     @Nonnull
     private final Logger log = LoggerFactory.getLogger(ValidateAuthentication.class);
 
-    /** Ordered list of candour claims to set as principal. */
-    @Nonnull
+    /**
+     * Ordered list of candour claims of which the first one found is set as Candour
+     * identifier principal.
+     */
+    @NonnullAfterInit
     private List<String> claimSourceIds;
 
+    /** Candour context. */
+    @Nullable
     private CandourContext candourContext;
 
     /** Constructor. */
@@ -56,9 +85,20 @@ public class ValidateAuthentication extends AbstractValidationAction {
      * 
      * @param ids claims to read from
      */
-    public void setClaimSourceIds(@Nonnull final List<String> ids) {
+    public void setClaimSourceIds(@Nonnull @NotEmpty final List<String> ids) {
         checkSetterPreconditions();
+        assert ids != null;
+        assert !ids.isEmpty();
         claimSourceIds = new ArrayList<>(StringSupport.normalizeStringCollection(ids));
+    }
+
+    @Override
+    protected void doInitialize() throws ComponentInitializationException {
+        super.doInitialize();
+
+        if (claimSourceIds == null || claimSourceIds.isEmpty()) {
+            throw new ComponentInitializationException("ClaimSourceIds cannot be null or empty");
+        }
     }
 
     @Override
@@ -96,8 +136,6 @@ public class ValidateAuthentication extends AbstractValidationAction {
     @Override
     protected Subject populateSubject(@Nonnull final Subject subject) {
 
-        // We set at most string claim as CandourIdentifierPrincipal. Not sure yet what
-        // we actually want to do with it.
         for (String id : claimSourceIds) {
             if (candourContext.getResultClaims().containsKey(id)
                     && candourContext.getResultClaims().get(id) instanceof String) {
