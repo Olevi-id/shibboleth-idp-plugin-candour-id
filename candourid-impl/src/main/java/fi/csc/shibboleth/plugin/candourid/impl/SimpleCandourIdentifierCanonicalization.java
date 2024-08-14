@@ -23,59 +23,62 @@ import net.shibboleth.shared.primitive.LoggerFactory;
 public class SimpleCandourIdentifierCanonicalization extends AbstractSubjectCanonicalizationAction {
 
     /** Class logger. */
-    @Nonnull private final Logger log = LoggerFactory.getLogger(SimpleCandourIdentifierCanonicalization.class);
+    @Nonnull
+    private final Logger log = LoggerFactory.getLogger(SimpleCandourIdentifierCanonicalization.class);
 
     /** Supplies logic for pre-execute test. */
-    @Nonnull private final ActivationCondition embeddedPredicate;
-    
+    @Nonnull
+    private final ActivationCondition embeddedPredicate;
+
     /** The custom Principal to operate on. */
-    @Nullable private CandourIdentifierPrincipal identifierPrincipal;
-    
+    @Nullable
+    private CandourIdentifierPrincipal identifierPrincipal;
+
     /** Constructor. */
     public SimpleCandourIdentifierCanonicalization() {
         embeddedPredicate = new ActivationCondition(false);
     }
-    
+
     /** {@inheritDoc} */
     @Override
-    protected boolean doPreExecute(@Nonnull final ProfileRequestContext profileRequestContext, 
+    protected boolean doPreExecute(@Nonnull final ProfileRequestContext profileRequestContext,
             @Nonnull final SubjectCanonicalizationContext c14nContext) {
 
         if (embeddedPredicate.apply(profileRequestContext, c14nContext, true)) {
             final Subject c14CtxSubject = c14nContext.getSubject();
             assert c14CtxSubject != null;
-            identifierPrincipal = 
-                    c14CtxSubject.getPrincipals(CandourIdentifierPrincipal.class).iterator().next();
+            identifierPrincipal = c14CtxSubject.getPrincipals(CandourIdentifierPrincipal.class).iterator().next();
             return super.doPreExecute(profileRequestContext, c14nContext);
         }
-        
+
         return false;
     }
-    
+
     /** {@inheritDoc} */
     @Override
-    protected void doExecute(@Nonnull final ProfileRequestContext profileRequestContext, 
+    protected void doExecute(@Nonnull final ProfileRequestContext profileRequestContext,
             @Nonnull final SubjectCanonicalizationContext c14nContext) {
         assert identifierPrincipal != null;
         c14nContext.setPrincipalName(applyTransforms(identifierPrincipal.getName()));
     }
-     
+
     /** A predicate that determines if this action can run or not. */
     public static class ActivationCondition implements Predicate<ProfileRequestContext> {
-        
+
         /** Class logger. */
-        @Nonnull private final Logger log = LoggerFactory.getLogger(ActivationCondition.class);
-        
-        /** Disable this C14N no matter how appropriate the context?*/
+        @Nonnull
+        private final Logger log = LoggerFactory.getLogger(ActivationCondition.class);
+
+        /** Disable this C14N no matter how appropriate the context? */
         private final boolean disabled;
-        
+
         /**
          * 
          * Constructor.
          *
          * @param disable this C14N no matter how appropriate the context
          */
-        public ActivationCondition(@ParameterName(name="disabled") final boolean disable) {
+        public ActivationCondition(@ParameterName(name = "disabled") final boolean disable) {
             disabled = disable;
         }
 
@@ -83,32 +86,34 @@ public class SimpleCandourIdentifierCanonicalization extends AbstractSubjectCano
         @Override
         public boolean test(@Nullable final ProfileRequestContext input) {
             if (disabled) {
-                log.trace("SimpleOIDCSubjectIdentifierCanonicalization has been disabled by configuration");
+                log.trace("SimpleCandourIdentifierCanonicalization has been disabled by configuration");
                 return false;
             }
             if (input != null) {
-                final SubjectCanonicalizationContext c14nContext =
-                        input.getSubcontext(SubjectCanonicalizationContext.class);
+                final SubjectCanonicalizationContext c14nContext = input
+                        .getSubcontext(SubjectCanonicalizationContext.class);
                 if (c14nContext != null) {
                     final boolean shouldRun = apply(input, c14nContext, false);
-                    log.trace("SimpleOIDCSubjectIdentifierCanonicalization is {} for the given context", 
+                    log.trace("SimpleCandourIdentifierCanonicalization is {} for the given context",
                             shouldRun ? "active" : "not active");
                     return shouldRun;
                 }
             }
-            log.trace("SimpleOIDCSubjectIdentifierCanonicalization is not active for the given context");
+            log.trace("SimpleCandourIdentifierCanonicalization is not active for the given context");
             return false;
         }
 
         /**
-         * Helper method that runs either as part of the {@link Predicate} or directly from
-         * the {@link SimpleCandourIdentifierCanonicalization#doPreExecute(ProfileRequestContext, 
-         * SubjectCanonicalizationContext)} method above.
+         * Helper method that runs either as part of the {@link Predicate} or directly
+         * from the
+         * {@link SimpleCandourIdentifierCanonicalization#doPreExecute(ProfileRequestContext, SubjectCanonicalizationContext)}
+         * method above.
          * 
          * @param profileRequestContext the current profile request context
-         * @param c14nContext   the current c14n context
-         * @param duringAction  true iff the method is run from the action above
-         * @return true iff the action can operate successfully on the candidate contexts
+         * @param c14nContext           the current c14n context
+         * @param duringAction          true iff the method is run from the action above
+         * @return true iff the action can operate successfully on the candidate
+         *         contexts
          */
         public boolean apply(@Nonnull final ProfileRequestContext profileRequestContext,
                 @Nonnull final SubjectCanonicalizationContext c14nContext, final boolean duringAction) {
@@ -120,10 +125,10 @@ public class SimpleCandourIdentifierCanonicalization extends AbstractSubjectCano
             } else {
                 subjects = null;
             }
-            
+
             if (subjects == null || subjects.isEmpty()) {
-                c14nContext.setException(
-                        new SubjectCanonicalizationException("No CandourIdentifierPrincipal were found"));
+                c14nContext
+                        .setException(new SubjectCanonicalizationException("No CandourIdentifierPrincipal were found"));
                 if (duringAction) {
                     ActionSupport.buildEvent(profileRequestContext, AuthnEventIds.INVALID_SUBJECT);
                 }
@@ -136,10 +141,10 @@ public class SimpleCandourIdentifierCanonicalization extends AbstractSubjectCano
                 }
                 return false;
             }
-            
+
             return true;
         }
-        
+
     }
 
 }
