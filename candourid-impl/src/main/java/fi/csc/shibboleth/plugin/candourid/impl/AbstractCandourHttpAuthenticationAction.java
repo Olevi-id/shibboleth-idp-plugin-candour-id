@@ -1,6 +1,8 @@
 package fi.csc.shibboleth.plugin.candourid.impl;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -35,6 +37,18 @@ public abstract class AbstractCandourHttpAuthenticationAction extends AbstractCa
     @Nonnull
     private final Logger log = LoggerFactory.getLogger(AbstractCandourHttpAuthenticationAction.class);
 
+    /** Candour API location. */
+    @NonnullAfterInit
+    private URI candouridURI;
+
+    /** Candour API client public key. */
+    @NonnullAfterInit
+    private String clientPublicKey;
+
+    /** Candour API client hmac key. */
+    @NonnullAfterInit
+    private String clientHmacKey;
+
     /** Http client for contacting the endpoint. */
     @NonnullAfterInit
     private HttpClient httpClient;
@@ -42,15 +56,6 @@ public abstract class AbstractCandourHttpAuthenticationAction extends AbstractCa
     /** HTTP client security parameters. */
     @Nullable
     private HttpClientSecurityParameters httpClientSecurityParameters;
-
-    @Override
-    protected void doInitialize() throws ComponentInitializationException {
-        super.doInitialize();
-
-        if (httpClient == null) {
-            throw new ComponentInitializationException("httpClient cannot be null");
-        }
-    }
 
     /**
      * Set the {@link HttpClient} to use.
@@ -70,6 +75,82 @@ public abstract class AbstractCandourHttpAuthenticationAction extends AbstractCa
     public void setHttpClientSecurityParameters(@Nullable final HttpClientSecurityParameters params) {
         checkSetterPreconditions();
         httpClientSecurityParameters = params;
+    }
+
+    /**
+     * Set Candour API location.
+     * 
+     * @param uri Candour API location
+     * @throws URISyntaxException
+     */
+    public void setCandouridURI(@Nonnull String uri) throws URISyntaxException {
+        assert uri != null;
+        candouridURI = new URI(uri);
+    }
+
+    /**
+     * Get Candour API location.
+     * 
+     * @return Candour API location
+     */
+    public URI getCandouridURI() {
+        return candouridURI;
+    }
+
+    /**
+     * Set Candour API client public key.
+     * 
+     * @param publicKey Candour API client public key
+     */
+    public void setClientPublicKey(@Nonnull String publicKey) {
+        assert publicKey != null;
+        clientPublicKey = publicKey;
+    }
+
+    /**
+     * Get Candour API client public key.
+     * 
+     * @return Candour API client public key
+     */
+    public String getClientPublicKey() {
+        return clientPublicKey;
+    }
+
+    /**
+     * Set Candour API client hmac key.
+     * 
+     * @param hmacKey Candour API client hmac key
+     */
+    public void setClientHmacKey(@Nonnull String hmacKey) {
+        assert hmacKey != null;
+        clientHmacKey = hmacKey;
+    }
+
+    /**
+     * Get Candour API client hmac key.
+     * 
+     * @return Candour API client hmac key
+     */
+    public String getClientHmacKey() {
+        return clientHmacKey;
+    }
+
+    @Override
+    protected void doInitialize() throws ComponentInitializationException {
+        super.doInitialize();
+
+        if (httpClient == null) {
+            throw new ComponentInitializationException("httpClient cannot be null");
+        }
+        if (candouridURI == null) {
+            throw new ComponentInitializationException("CandouridURI cannot be null");
+        }
+        if (clientPublicKey == null) {
+            throw new ComponentInitializationException("ClientPublicKey cannot be null");
+        }
+        if (clientHmacKey == null) {
+            throw new ComponentInitializationException("ClientHmacKey cannot be null");
+        }
     }
 
     /**

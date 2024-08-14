@@ -52,52 +52,9 @@ public class CreateSession extends AbstractCandourHttpAuthenticationAction {
     @Nonnull
     private final Logger log = LoggerFactory.getLogger(CreateSession.class);
 
-    /** Candour API location. */
-    @NonnullAfterInit
-    private URI candouridURI;
-
-    /** Candour API client public key. */
-    @NonnullAfterInit
-    private String clientPublicKey;
-
-    /** Candour API client hmac key. */
-    @NonnullAfterInit
-    private String clientHmacKey;
-
     /** The payload to send to Candour. */
     @NonnullAfterInit
     private CandourInvitationRequestPayload payload;
-
-    /**
-     * Set Candour API location.
-     * 
-     * @param uri Candour API location
-     * @throws URISyntaxException
-     */
-    public void setCandouridURI(@Nonnull String uri) throws URISyntaxException {
-        assert uri != null;
-        candouridURI = new URI(uri);
-    }
-
-    /**
-     * Set Candour API client public key.
-     * 
-     * @param publicKey Candour API client public key
-     */
-    public void setClientPublicKey(@Nonnull String publicKey) {
-        assert publicKey != null;
-        clientPublicKey = publicKey;
-    }
-
-    /**
-     * Set Candour API client hmac key.
-     * 
-     * @param hmacKey Candour API client hmac key
-     */
-    public void setClientHmacKey(@Nonnull String hmacKey) {
-        assert hmacKey != null;
-        clientHmacKey = hmacKey;
-    }
 
     /**
      * Set the payload to send to Candour.
@@ -113,15 +70,6 @@ public class CreateSession extends AbstractCandourHttpAuthenticationAction {
     protected void doInitialize() throws ComponentInitializationException {
         super.doInitialize();
 
-        if (candouridURI == null) {
-            throw new ComponentInitializationException("CandouridURI cannot be null");
-        }
-        if (clientPublicKey == null) {
-            throw new ComponentInitializationException("ClientPublicKey cannot be null");
-        }
-        if (clientHmacKey == null) {
-            throw new ComponentInitializationException("ClientHmacKey cannot be null");
-        }
         if (payload == null) {
             throw new ComponentInitializationException("Payload cannot be null");
         }
@@ -132,7 +80,8 @@ public class CreateSession extends AbstractCandourHttpAuthenticationAction {
     protected void doExecute(@Nonnull final ProfileRequestContext profileRequestContext,
             @Nonnull final AuthenticationContext authenticationContext) {
 
-        CandourInvitationRequest message = new CandourInvitationRequest(candouridURI, clientPublicKey, clientHmacKey);
+        CandourInvitationRequest message = new CandourInvitationRequest(getCandouridURI(), getClientPublicKey(),
+                getClientHmacKey());
         message.setPayload(payload);
         String uri = buildCallbackUri();
         if (uri == null) {
