@@ -62,6 +62,7 @@ public class CreateSession extends AbstractCandourHttpAuthenticationAction {
      * @param content the payload to send to Candour. Implement a strategy to set it
      */
     public void setPayload(@Nonnull CandourInvitationRequestPayload content) {
+        checkSetterPreconditions();
         assert content != null;
         payload = content;
     }

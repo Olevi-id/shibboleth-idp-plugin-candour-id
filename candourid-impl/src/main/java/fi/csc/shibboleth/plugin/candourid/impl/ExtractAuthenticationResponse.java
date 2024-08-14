@@ -56,6 +56,7 @@ public class ExtractAuthenticationResponse extends AbstractCandourAuthentication
      * @param mapping
      */
     public void setMappedStatuses(@Nonnull Map<String, String> mapping) {
+        checkSetterPreconditions();
         assert mapping != null;
         mappedStatuses = mapping;
     }
@@ -66,6 +67,7 @@ public class ExtractAuthenticationResponse extends AbstractCandourAuthentication
      * @param parameter Name of the status parameter
      */
     public void setStatusParameter(@Nonnull String parameter) {
+        checkSetterPreconditions();
         assert parameter != null;
         statusParameter = parameter;
     }
@@ -76,6 +78,7 @@ public class ExtractAuthenticationResponse extends AbstractCandourAuthentication
      * @param value Value of the success status parameter
      */
     public void setStatusSuccessValue(@Nonnull String value) {
+        checkSetterPreconditions();
         assert value != null;
         statusSuccessValue = value;
     }
@@ -86,6 +89,7 @@ public class ExtractAuthenticationResponse extends AbstractCandourAuthentication
      * @param parameter Name of the session id parameter
      */
     public void setSessionIdParameter(String parameter) {
+        checkSetterPreconditions();
         sessionIdParameter = parameter;
     }
 

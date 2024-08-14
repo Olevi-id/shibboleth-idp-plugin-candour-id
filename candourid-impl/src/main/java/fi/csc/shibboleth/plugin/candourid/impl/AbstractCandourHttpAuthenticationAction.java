@@ -84,6 +84,7 @@ public abstract class AbstractCandourHttpAuthenticationAction extends AbstractCa
      * @throws URISyntaxException
      */
     public void setCandouridURI(@Nonnull String uri) throws URISyntaxException {
+        checkSetterPreconditions();
         assert uri != null;
         candouridURI = new URI(uri);
     }
@@ -103,6 +104,7 @@ public abstract class AbstractCandourHttpAuthenticationAction extends AbstractCa
      * @param publicKey Candour API client public key
      */
     public void setClientPublicKey(@Nonnull String publicKey) {
+        checkSetterPreconditions();
         assert publicKey != null;
         clientPublicKey = publicKey;
     }
@@ -122,6 +124,7 @@ public abstract class AbstractCandourHttpAuthenticationAction extends AbstractCa
      * @param hmacKey Candour API client hmac key
      */
     public void setClientHmacKey(@Nonnull String hmacKey) {
+        checkSetterPreconditions();
         assert hmacKey != null;
         clientHmacKey = hmacKey;
     }
