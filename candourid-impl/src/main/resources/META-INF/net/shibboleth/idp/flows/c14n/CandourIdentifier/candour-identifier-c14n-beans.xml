@@ -15,7 +15,7 @@
     <bean id="SimpleCandourIdentifierCanonicalization"
         class="fi.csc.shibboleth.plugin.candourid.impl.SimpleCandourIdentifierCanonicalization" scope="prototype"
         p:lowercase="#{getObject('candour.authn.c14n.identifier.Lowercase') ?: %{candour.authn.c14n.identifier.lowercase:false}}"
-        p:uppercase="#{getObject('candour.authn.c14n.identifier.Uppercase') ?: %{candour.authn.c14n.identifier.uppercas:false}}"
+        p:uppercase="#{getObject('candour.authn.c14n.identifier.Uppercase') ?: %{candour.authn.c14n.identifier.uppercase:false}}"
         p:trim="#{getObject('candour.authn.c14n.identifier.Trim') ?: %{candour.authn.c14n.identifier.trim:true}}"
         p:transforms="#{getObject('candour.authn.c14n.identifier.Transforms')}" />
     
