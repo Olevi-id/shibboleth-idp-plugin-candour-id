@@ -34,20 +34,28 @@ public class CandourInvitationRequestPayload {
 
     /** Duration for the session to be valid. Defaults to 10 minutes. */
     private Duration invitationValidity = Duration.ofMinutes(10);
+
     /** How many verification tries User is allowed to have. Defaults to 5. */
     private Integer tries = 5;
+
     /** redirect callback url. */
     private String callbackUrl;
+
     /** redirect callback post url. */
     private String callbackPostEndpoint;
+
     /** Allowed verification methods. */
     private AllowedVerificationMethods allowedVerificationMethods = new AllowedVerificationMethods();
+
     /** Allowed verification documents. */
     private AllowedVerificationDocuments allowedVerificationDocuments = new AllowedVerificationDocuments();
+
     /** Expected result claims and used matchers. */
     private ResultProperties resultProperties = new ResultProperties();
+
     /** Data for matching a user with resultProperties matchers. */
     private User user = new User();
+
     /** Data for matching a user. */
     private EnforceValues enforceValues = new EnforceValues();
 
@@ -235,6 +243,20 @@ public class CandourInvitationRequestPayload {
     public String serialize() throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.writeValueAsString(this);
+    }
+
+    /**
+     * Serialize instance to json string.
+     * 
+     * @return json string representing the instance. Null if serialization fails.
+     */
+    public String toString() {
+        try {
+            return serialize();
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }
