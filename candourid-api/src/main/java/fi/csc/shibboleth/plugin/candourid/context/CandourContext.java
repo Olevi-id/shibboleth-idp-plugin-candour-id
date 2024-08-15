@@ -24,7 +24,7 @@ import javax.annotation.Nullable;
 import org.opensaml.messaging.context.BaseContext;
 
 /**
- * Context carrying the state between actions.
+ * Context carrying the state between Candour API calls and redirections.
  */
 public class CandourContext extends BaseContext {
 

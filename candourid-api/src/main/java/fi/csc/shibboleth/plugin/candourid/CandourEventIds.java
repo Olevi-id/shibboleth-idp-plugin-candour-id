@@ -19,6 +19,10 @@ import javax.annotation.Nonnull;
 
 import net.shibboleth.shared.annotation.constraint.NotEmpty;
 
+/**
+ * Candour -specific constants to use for {@link org.opensaml.profile.action.ProfileAction}
+ * {@link org.opensaml.profile.context.EventContext}s.
+ */
 public final class CandourEventIds {
 
     /**
