@@ -17,6 +17,7 @@ package fi.csc.shibboleth.plugin.candourid.messaging.impl;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
@@ -41,6 +42,7 @@ public class CandourInvitationRequestTest {
     @BeforeMethod
     protected void setUp() throws Exception {
         message = new CandourInvitationRequest(new URI("https://example.com"), publicKey, hmacKey);
+        message.setPayload(new CandourInvitationRequestPayload());
         message.getPayload().setCallbackUrl("https://example.com/callback/init");
         message.getPayload().setCallbackPostEndpoint("https://example.com/callback/done");
         message.getPayload().getAllowedVerificationMethods().setIdWeb(true);
@@ -51,7 +53,7 @@ public class CandourInvitationRequestTest {
 
     @Test
     public void testHeaders() throws ProtocolException, InvalidKeyException, NoSuchAlgorithmException,
-            IllegalStateException, IOException {
+            IllegalStateException, IOException, URISyntaxException {
         ClassicHttpRequest request = message.toHttpRequest();
         Assert.assertEquals(request.getHeader("Content-Type").getValue(), "application/json");
         Assert.assertEquals(request.getHeader("X-AUTH-CLIENT").getValue(), publicKey);
@@ -69,7 +71,7 @@ public class CandourInvitationRequestTest {
 
     @Test
     public void testHmacDynamicPayload() throws ProtocolException, InvalidKeyException, NoSuchAlgorithmException,
-            IllegalStateException, IOException {
+            IllegalStateException, IOException, URISyntaxException {
         ClassicHttpRequest request = message.toHttpRequest();
         String requestHmac = request.getHeader("X-HMAC-SIGNATURE").getValue();
         String requestPayload = EntityUtils.toString(request.getEntity());
