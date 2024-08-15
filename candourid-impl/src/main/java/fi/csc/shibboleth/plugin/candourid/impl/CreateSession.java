@@ -109,7 +109,7 @@ public class CreateSession extends AbstractCandourHttpAuthenticationAction {
         CandourResponse response = null;
         try {
             response = executeHttpRequest(message.toHttpRequest());
-        } catch (IOException | InvalidKeyException | NoSuchAlgorithmException | IllegalStateException e) {
+        } catch (IOException | InvalidKeyException | NoSuchAlgorithmException | IllegalStateException | URISyntaxException e) {
             log.error("{} Exception occurred", getLogPrefix(), e);
             ActionSupport.buildEvent(profileRequestContext, CandourEventIds.CANDOUR_API_COMM_FAILURE);
             return;
