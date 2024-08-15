@@ -15,6 +15,8 @@
  */
 package fi.csc.shibboleth.plugin.candourid.messaging.impl;
 
+import javax.annotation.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**
@@ -24,24 +26,43 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 public class User {
 
     /** First name. */
+    @Nullable
     private String firstName;
+
     /** Last name. */
+    @Nullable
     private String lastName;
+
     /** Date of birth in YYYY-MM-DD */
+    @Nullable
     private String dateOfBirth;
+
     /** National identification number. */
+    @Nullable
     private String nationalIdentificationNumber;
+
     /** Id document number. */
+    @Nullable
     private String idNumber;
+
     /** Id document expiration date. */
+    @Nullable
     private String expirationDate;
+
     /** Country that has issued ID document. */
+    @Nullable
     private String issuingCountry;
+
     /** User nationality. */
+    @Nullable
     private String nationality;
+
     /** Custom identifier for the user. */
+    @Nullable
     private String identifier;
+
     /** User sex, ‘M’ or ‘F’. */
+    @Nullable
     private String sex;
 
     /**
@@ -49,6 +70,7 @@ public class User {
      * 
      * @return First name
      */
+    @Nullable
     public String getFirstName() {
         return firstName;
     }
@@ -58,7 +80,7 @@ public class User {
      * 
      * @param name First name
      */
-    public void setFirstName(String name) {
+    public void setFirstName(@Nullable String name) {
         firstName = name;
     }
 
@@ -67,6 +89,7 @@ public class User {
      * 
      * @return Last name
      */
+    @Nullable
     public String getLastName() {
         return lastName;
     }
@@ -76,7 +99,7 @@ public class User {
      * 
      * @param name Last name
      */
-    public void setLastName(String name) {
+    public void setLastName(@Nullable String name) {
         lastName = name;
     }
 
@@ -85,6 +108,7 @@ public class User {
      * 
      * @return Date of birth in YYYY-MM-DD
      */
+    @Nullable
     public String getDateOfBirth() {
         return dateOfBirth;
     }
@@ -94,7 +118,7 @@ public class User {
      * 
      * @param date Date of birth in YYYY-MM-DD
      */
-    public void setDateOfBirth(String date) {
+    public void setDateOfBirth(@Nullable String date) {
         dateOfBirth = date;
     }
 
@@ -103,6 +127,7 @@ public class User {
      * 
      * @return National identification number
      */
+    @Nullable
     public String getNationalIdentificationNumber() {
         return nationalIdentificationNumber;
     }
@@ -112,7 +137,7 @@ public class User {
      * 
      * @param number National identification number
      */
-    public void setNationalIdentificationNumber(String number) {
+    public void setNationalIdentificationNumber(@Nullable String number) {
         nationalIdentificationNumber = number;
     }
 
@@ -121,6 +146,7 @@ public class User {
      * 
      * @return Id document number
      */
+    @Nullable
     public String getIdNumber() {
         return idNumber;
     }
@@ -130,7 +156,7 @@ public class User {
      * 
      * @param number Id document number
      */
-    public void setIdNumber(String number) {
+    public void setIdNumber(@Nullable String number) {
         idNumber = number;
     }
 
@@ -139,6 +165,7 @@ public class User {
      * 
      * @return Id document expiration date
      */
+    @Nullable
     public String getExpirationDate() {
         return expirationDate;
     }
@@ -148,7 +175,7 @@ public class User {
      * 
      * @param date Id document expiration date
      */
-    public void setExpirationDate(String date) {
+    public void setExpirationDate(@Nullable String date) {
         expirationDate = date;
     }
 
@@ -157,6 +184,7 @@ public class User {
      * 
      * @return Country that has issued ID document
      */
+    @Nullable
     public String getIssuingCountry() {
         return issuingCountry;
     }
@@ -166,7 +194,7 @@ public class User {
      * 
      * @param country Country that has issued ID document
      */
-    public void setIssuingCountry(String country) {
+    public void setIssuingCountry(@Nullable String country) {
         issuingCountry = country;
     }
 
@@ -175,6 +203,7 @@ public class User {
      * 
      * @return User nationality
      */
+    @Nullable
     public String getNationality() {
         return nationality;
     }
@@ -184,7 +213,7 @@ public class User {
      * 
      * @param nat User nationality
      */
-    public void setNationality(String nat) {
+    public void setNationality(@Nullable String nat) {
         nationality = nat;
     }
 
@@ -193,6 +222,7 @@ public class User {
      * 
      * @return Custom identifier for the user
      */
+    @Nullable
     public String getIdentifier() {
         return identifier;
     }
@@ -202,7 +232,7 @@ public class User {
      * 
      * @param id Custom identifier for the user
      */
-    public void setIdentifier(String id) {
+    public void setIdentifier(@Nullable String id) {
         identifier = id;
     }
 
@@ -211,6 +241,7 @@ public class User {
      * 
      * @return User sex, ‘M’ or ‘F’
      */
+    @Nullable
     public String getSex() {
         return sex;
     }
@@ -220,7 +251,7 @@ public class User {
      * 
      * @param sexId User sex, ‘M’ or ‘F’
      */
-    public void setSex(String sexId) {
+    public void setSex(@Nullable String sexId) {
         sex = sexId;
     }
 }

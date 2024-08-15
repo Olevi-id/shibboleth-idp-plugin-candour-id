@@ -15,6 +15,8 @@
  */
 package fi.csc.shibboleth.plugin.candourid.messaging.impl;
 
+import javax.annotation.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**
@@ -22,37 +24,69 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ResultProperties {
+
     /** Whether name data is returned. */
+    @Nullable
     private Boolean name;
+
     /** Whether expected name matching is used. */
+    @Nullable
     private Boolean nameMatch;
+
     /** Whether expected name matching is used and what is the match score. */
+    @Nullable
     private Boolean nameScore;
+
     /** Whether date of birth is returned. */
+    @Nullable
     private Boolean dateOfBirth;
+
     /** Whether expected date of birth matching is used. */
+    @Nullable
     private Boolean dateOfBirthMatch;
+
     /** Whether national identification data is returned. */
+    @Nullable
     private Boolean nationalIdentificationNumber;
+
     /** Whether id number of id document is returned. */
+    @Nullable
     private Boolean idNumber;
+
     /** Whether id type id document is returned. */
+    @Nullable
     private Boolean idDocumentType;
+
     /** Whether id document expiration is returned. */
+    @Nullable
     private Boolean idExpiration;
+
     /** Whether issuer country code is returned. */
+    @Nullable
     private Boolean idIssuer;
+
     /** Whether nationality is returned. */
+    @Nullable
     private Boolean nationality;
+
     /** Whether sex is returned. */
+    @Nullable
     private Boolean sex;
+
     /** Whether selfie img is returned. */
+    @Nullable
     private Boolean selfieImage;
+
     /** Whether MRZ side of id img is returned. */
+    @Nullable
     private Boolean idMrzImage;
+
     /** Whether other side of id img is returned. */
+    @Nullable
     private Boolean idOtherImage;
+
     /** Whether user img from id biometric is returned. */
+    @Nullable
     private Boolean idChipImage;
 
     /**
@@ -60,6 +94,7 @@ public class ResultProperties {
      * 
      * @return whether name data is returned. True by default
      */
+    @Nullable
     public Boolean isName() {
         return name;
     }
@@ -69,7 +104,7 @@ public class ResultProperties {
      * 
      * @param isRequired Whether name data is returned. True by default.
      */
-    public void setName(Boolean isRequired) {
+    public void setName(@Nullable Boolean isRequired) {
         name = isRequired;
     }
 
@@ -78,6 +113,7 @@ public class ResultProperties {
      * 
      * @return whether expected name matching is used
      */
+    @Nullable
     public Boolean isNameMatch() {
         return nameMatch;
     }
@@ -87,7 +123,7 @@ public class ResultProperties {
      * 
      * @param isUsed whether expected name matching is used.
      */
-    public void setNameMatch(Boolean isUsed) {
+    public void setNameMatch(@Nullable Boolean isUsed) {
         nameMatch = isUsed;
     }
 
@@ -96,6 +132,7 @@ public class ResultProperties {
      * 
      * @return Whether expected name matching is used and what is the match score
      */
+    @Nullable
     public Boolean isNameScore() {
         return nameScore;
     }
@@ -106,7 +143,7 @@ public class ResultProperties {
      * @param isUsed Whether expected name matching is used and what is the match
      *               score
      */
-    public void setNameScore(Boolean isUsed) {
+    public void setNameScore(@Nullable Boolean isUsed) {
         nameScore = isUsed;
     }
 
@@ -115,6 +152,7 @@ public class ResultProperties {
      * 
      * @return Whether date of birth is returned
      */
+    @Nullable
     public Boolean isDateOfBirth() {
         return dateOfBirth;
     }
@@ -124,7 +162,7 @@ public class ResultProperties {
      * 
      * @param isRequired Whether date of birth is returned
      */
-    public void setDateOfBirth(Boolean isRequired) {
+    public void setDateOfBirth(@Nullable Boolean isRequired) {
         dateOfBirth = isRequired;
     }
 
@@ -133,6 +171,7 @@ public class ResultProperties {
      * 
      * @return Whether expected date of birth matching is used
      */
+    @Nullable
     public Boolean isDateOfBirthMatch() {
         return dateOfBirthMatch;
     }
@@ -142,7 +181,7 @@ public class ResultProperties {
      * 
      * @param isUsed whether expected date of birth matching is used.
      */
-    public void setDateOfBirthMatch(Boolean isUsed) {
+    public void setDateOfBirthMatch(@Nullable Boolean isUsed) {
         dateOfBirthMatch = isUsed;
     }
 
@@ -151,6 +190,7 @@ public class ResultProperties {
      * 
      * @return Whether national identification data is returned
      */
+    @Nullable
     public Boolean isNationalIdentificationNumber() {
         return nationalIdentificationNumber;
     }
@@ -160,7 +200,7 @@ public class ResultProperties {
      * 
      * @param isRequired Whether national identification data is returned
      */
-    public void setNationalIdentificationNumber(Boolean isRequired) {
+    public void setNationalIdentificationNumber(@Nullable Boolean isRequired) {
         nationalIdentificationNumber = isRequired;
     }
 
@@ -169,6 +209,7 @@ public class ResultProperties {
      * 
      * @return Whether id number of id document is returned
      */
+    @Nullable
     public Boolean isIdNumber() {
         return idNumber;
     }
@@ -178,7 +219,7 @@ public class ResultProperties {
      * 
      * @param isRequired Whether id number of id document is returned.
      */
-    public void setIdNumber(Boolean isRequired) {
+    public void setIdNumber(@Nullable Boolean isRequired) {
         idNumber = isRequired;
     }
 
@@ -187,6 +228,7 @@ public class ResultProperties {
      * 
      * @return Whether id type id document is returned
      */
+    @Nullable
     public Boolean isIdDocumentType() {
         return idDocumentType;
     }
@@ -196,7 +238,7 @@ public class ResultProperties {
      * 
      * @param isRequired Whether id type id document is returned.
      */
-    public void setIdDocumentType(Boolean isRequired) {
+    public void setIdDocumentType(@Nullable Boolean isRequired) {
         idDocumentType = isRequired;
     }
 
@@ -205,6 +247,7 @@ public class ResultProperties {
      * 
      * @return Whether id document expiration is returned
      */
+    @Nullable
     public Boolean isIdExpiration() {
         return idExpiration;
     }
@@ -214,7 +257,7 @@ public class ResultProperties {
      * 
      * @param isRequired Whether id document expiration is returned.
      */
-    public void setIdExpiration(Boolean isRequired) {
+    public void setIdExpiration(@Nullable Boolean isRequired) {
         idExpiration = isRequired;
     }
 
@@ -223,6 +266,7 @@ public class ResultProperties {
      * 
      * @return Whether issuer country code is returned.
      */
+    @Nullable
     public Boolean isIdIssuer() {
         return idIssuer;
     }
@@ -232,7 +276,7 @@ public class ResultProperties {
      * 
      * @param isRequired Whether issuer country code is returned.
      */
-    public void setIdIssuer(Boolean isRequired) {
+    public void setIdIssuer(@Nullable Boolean isRequired) {
         idIssuer = isRequired;
     }
 
@@ -241,6 +285,7 @@ public class ResultProperties {
      * 
      * @return Whether nationality is returned
      */
+    @Nullable
     public Boolean isNationality() {
         return nationality;
     }
@@ -250,7 +295,7 @@ public class ResultProperties {
      * 
      * @param isRequired Whether nationality is returned.
      */
-    public void setNationality(Boolean isRequired) {
+    public void setNationality(@Nullable Boolean isRequired) {
         nationality = isRequired;
     }
 
@@ -259,6 +304,7 @@ public class ResultProperties {
      * 
      * @return Whether sex is returned.
      */
+    @Nullable
     public Boolean isSex() {
         return sex;
     }
@@ -268,7 +314,7 @@ public class ResultProperties {
      * 
      * @param isRequired Whether sex is returned.
      */
-    public void setSex(Boolean isRequired) {
+    public void setSex(@Nullable Boolean isRequired) {
         sex = isRequired;
     }
 
@@ -277,6 +323,7 @@ public class ResultProperties {
      * 
      * @return whether selfie img is returned.
      */
+    @Nullable
     public Boolean isSelfieImage() {
         return selfieImage;
     }
@@ -286,7 +333,7 @@ public class ResultProperties {
      * 
      * @param isRequired Whether selfie img is returned
      */
-    public void setSelfieImage(Boolean isRequired) {
+    public void setSelfieImage(@Nullable Boolean isRequired) {
         selfieImage = isRequired;
     }
 
@@ -295,6 +342,7 @@ public class ResultProperties {
      * 
      * @return Whether MRZ side of id img is returned
      */
+    @Nullable
     public Boolean isIdMrzImage() {
         return idMrzImage;
     }
@@ -304,7 +352,7 @@ public class ResultProperties {
      * 
      * @param isRequired Whether MRZ side of id img is returned.
      */
-    public void setIdMrzImage(Boolean isRequired) {
+    public void setIdMrzImage(@Nullable Boolean isRequired) {
         idMrzImage = isRequired;
     }
 
@@ -313,6 +361,7 @@ public class ResultProperties {
      * 
      * @return Whether other side of id img is returned
      */
+    @Nullable
     public Boolean isIdOtherImage() {
         return idOtherImage;
     }
@@ -322,7 +371,7 @@ public class ResultProperties {
      * 
      * @param isRequired Whether other side of id img is returned
      */
-    public void setIdOtherImage(Boolean isRequired) {
+    public void setIdOtherImage(@Nullable Boolean isRequired) {
         idOtherImage = isRequired;
     }
 
@@ -331,6 +380,7 @@ public class ResultProperties {
      * 
      * @return Whether user img from id biometric is returned
      */
+    @Nullable
     public Boolean isIdChipImage() {
         return idChipImage;
     }
@@ -340,7 +390,7 @@ public class ResultProperties {
      * 
      * @param isRequired Whether user img from id biometric is returned
      */
-    public void setIdChipImage(Boolean isRequired) {
+    public void setIdChipImage(@Nullable Boolean isRequired) {
         idChipImage = isRequired;
     }
 

@@ -40,10 +40,7 @@ import net.shibboleth.shared.primitive.LoggerFactory;
 
 /**
  * An abstract class for Candour actions that make synchronous HTTP requests and
- * return types of {@link Response responses}.
- * 
- * @param <T> the response type of the object returned as a result of the
- *            request.
+ * return types of {@link CandourResponse responses}.
  */
 @ThreadSafeAfterInit
 public abstract class AbstractCandourHttpAuthenticationAction extends AbstractCandourAuthenticationAction {

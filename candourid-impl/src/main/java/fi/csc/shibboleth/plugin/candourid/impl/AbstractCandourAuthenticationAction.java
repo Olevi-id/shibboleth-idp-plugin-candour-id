@@ -16,6 +16,7 @@
 package fi.csc.shibboleth.plugin.candourid.impl;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.opensaml.profile.action.ActionSupport;
 import org.opensaml.profile.action.EventIds;
@@ -28,7 +29,7 @@ import net.shibboleth.idp.authn.AbstractAuthenticationAction;
 import net.shibboleth.idp.authn.context.AuthenticationContext;
 
 /**
- * 
+ * Abstract class for actions expecting {@link CandourContext} to be available.
  */
 abstract class AbstractCandourAuthenticationAction extends AbstractAuthenticationAction {
 
@@ -37,7 +38,7 @@ abstract class AbstractCandourAuthenticationAction extends AbstractAuthenticatio
     private final Logger log = LoggerFactory.getLogger(AbstractCandourAuthenticationAction.class);
 
     /** candour context. */
-    @Nonnull
+    @Nullable
     protected CandourContext candourContext;
 
     /** {@inheritDoc} */

@@ -15,6 +15,8 @@
  */
 package fi.csc.shibboleth.plugin.candourid.messaging.impl;
 
+import javax.annotation.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**
@@ -24,8 +26,10 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 public class AllowedVerificationDocuments {
 
     /** Whether passport is allowed as verification document. */
+    @Nullable
     private Boolean passport;
     /** Whether national id card is allowed as verification document. */
+    @Nullable
     private Boolean idCard;
 
     /**
@@ -33,7 +37,7 @@ public class AllowedVerificationDocuments {
      * 
      * @param allowed whether passport is allowed as verification document.
      */
-    public void setPassport(Boolean allowed) {
+    public void setPassport(@Nullable Boolean allowed) {
         passport = allowed;
     }
 
@@ -42,6 +46,7 @@ public class AllowedVerificationDocuments {
      * 
      * @return Whether passport is allowed as verification document
      */
+    @Nullable
     public Boolean isPassport() {
         return passport;
     }
@@ -51,7 +56,7 @@ public class AllowedVerificationDocuments {
      * 
      * @param allowed Whether national id card is allowed as verification document
      */
-    public void setIdCard(Boolean allowed) {
+    public void setIdCard(@Nullable Boolean allowed) {
         idCard = allowed;
     }
 
@@ -60,6 +65,7 @@ public class AllowedVerificationDocuments {
      * 
      * @return Whether national id card is allowed as verification document
      */
+    @Nullable
     public Boolean isIdCard() {
         return idCard;
     }

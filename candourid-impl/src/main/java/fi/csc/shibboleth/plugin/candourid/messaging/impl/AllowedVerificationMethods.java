@@ -15,6 +15,8 @@
  */
 package fi.csc.shibboleth.plugin.candourid.messaging.impl;
 
+import javax.annotation.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**
@@ -24,15 +26,18 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 public class AllowedVerificationMethods {
 
     /** Whether web browser based optical verification is allowed. */
+    @Nullable
     private Boolean idWeb;
 
     /**
      * Whether mobile app based optical verification + nfc chip verification is
      * allowed.
      */
+    @Nullable
     private Boolean rfidApp;
 
     /** Whether mobile app based optical verification is allowed. */
+    @Nullable
     private Boolean idApp;
 
     /**
@@ -40,6 +45,7 @@ public class AllowedVerificationMethods {
      * 
      * @return whether web browser based optical verification is allowed
      */
+    @Nullable
     public Boolean isIdWeb() {
         return idWeb;
     }
@@ -49,7 +55,7 @@ public class AllowedVerificationMethods {
      * 
      * @param allowed Whether web browser based optical verification is allowed
      */
-    public void setIdWeb(Boolean allowed) {
+    public void setIdWeb(@Nullable Boolean allowed) {
         idWeb = allowed;
     }
 
@@ -60,6 +66,7 @@ public class AllowedVerificationMethods {
      * @return Whether mobile app based optical verification + nfc chip verification
      *         is allowed
      */
+    @Nullable
     public Boolean isRfidApp() {
         return rfidApp;
     }
@@ -71,7 +78,7 @@ public class AllowedVerificationMethods {
      * @param allowed whether mobile app based optical verification + nfc chip
      *                verification is allowed.
      */
-    public void setRfidApp(Boolean allowed) {
+    public void setRfidApp(@Nullable Boolean allowed) {
         rfidApp = allowed;
     }
 
@@ -80,6 +87,7 @@ public class AllowedVerificationMethods {
      * 
      * @return Whether mobile app based optical verification is allowed
      */
+    @Nullable
     public Boolean isIdApp() {
         return idApp;
     }
@@ -89,7 +97,7 @@ public class AllowedVerificationMethods {
      * 
      * @param idApp whether mobile app based optical verification is allowed.
      */
-    public void setIdApp(Boolean allowed) {
+    public void setIdApp(@Nullable Boolean allowed) {
         idApp = allowed;
     }
 }

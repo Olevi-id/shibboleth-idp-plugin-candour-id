@@ -34,6 +34,17 @@ import net.shibboleth.idp.authn.context.SubjectCanonicalizationContext;
 import net.shibboleth.shared.annotation.ParameterName;
 import net.shibboleth.shared.primitive.LoggerFactory;
 
+/**
+ * An action that operates on a {@link SubjectCanonicalizationContext} child of the current
+ * {@link ProfileRequestContext}, and transforms the input {@link javax.security.auth.Subject}
+ * into a principal name by searching for one and only one {@link OIDCSubjectIdentifierPrincipal} custom principal.
+ * 
+ * @event {@link org.opensaml.profile.action.EventIds#PROCEED_EVENT_ID}
+ * @event {@link AuthnEventIds#INVALID_SUBJECT}
+ * @pre <pre>ProfileRequestContext.getSubcontext(SubjectCanonicalizationContext.class, false) != null</pre>
+ * @post <pre>SubjectCanonicalizationContext.getPrincipalName() != null
+ *  || SubjectCanonicalizationContext.getException() != null</pre>
+ */
 public class SimpleCandourIdentifierCanonicalization extends AbstractSubjectCanonicalizationAction {
 
     /** Class logger. */

@@ -15,6 +15,8 @@
  */
 package fi.csc.shibboleth.plugin.candourid.messaging.impl;
 
+import javax.annotation.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**
@@ -22,21 +24,39 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class EnforceValues {
+
     /** Whether expected date of birth matching is enforced. */
+    @Nullable
     private Boolean dateOfBirth;
+
     /** Whether identity document number in id matching is enforced. */
+    @Nullable
     private Boolean idNumber;
+
     /** Whether national identification number in id matching is enforced. */
+    @Nullable
     private Boolean nationalIdentificationNumber;
+
     /** Whether document expiration date in id matching is enforced. */
+    @Nullable
     private Boolean expirationDate;
+
     /** Whether document issuing country in id matching is enforced. */
+    @Nullable
     private Boolean issuingCountry;
+
     /** Whether user nationality in id matching is enforced. */
+    @Nullable
     private Boolean nationality;
+
     /** Whether user sex id matching is enforced. */
+    @Nullable
     private Boolean sex;
-    /** Number between 1-100, a threshold that name score must be equal or higher. */
+
+    /**
+     * Number between 1-100, a threshold that name score must be equal or higher.
+     */
+    @Nullable
     private Integer nameScore;
 
     /**
@@ -44,6 +64,7 @@ public class EnforceValues {
      * 
      * @return Whether expected date of birth matching is enforced.
      */
+    @Nullable
     public Boolean isDateOfBirth() {
         return dateOfBirth;
     }
@@ -53,7 +74,7 @@ public class EnforceValues {
      * 
      * @param isEnforced Whether expected date of birth matching is enforced
      */
-    public void setDateOfBirth(Boolean isEnforced) {
+    public void setDateOfBirth(@Nullable Boolean isEnforced) {
         dateOfBirth = isEnforced;
     }
 
@@ -62,6 +83,7 @@ public class EnforceValues {
      * 
      * @return Whether identity document number in id matching is enforced
      */
+    @Nullable
     public Boolean isIdNumber() {
         return idNumber;
     }
@@ -71,7 +93,7 @@ public class EnforceValues {
      * 
      * @param isEnforced Whether identity document number in id matching is enforced
      */
-    public void setIdNumber(Boolean isEnforced) {
+    public void setIdNumber(@Nullable Boolean isEnforced) {
         idNumber = isEnforced;
     }
 
@@ -80,6 +102,7 @@ public class EnforceValues {
      * 
      * @return Whether national identification number in id matching is enforced.
      */
+    @Nullable
     public Boolean isNationalIdentificationNumber() {
         return nationalIdentificationNumber;
     }
@@ -90,7 +113,7 @@ public class EnforceValues {
      * @param isEnforced Whether national identification number in id matching is
      *                   enforced
      */
-    public void setNationalIdentificationNumber(Boolean isEnforced) {
+    public void setNationalIdentificationNumber(@Nullable Boolean isEnforced) {
         nationalIdentificationNumber = isEnforced;
     }
 
@@ -99,6 +122,7 @@ public class EnforceValues {
      * 
      * @return Whether document expiration date in id matching is enforced
      */
+    @Nullable
     public Boolean isExpirationDate() {
         return expirationDate;
     }
@@ -108,7 +132,7 @@ public class EnforceValues {
      * 
      * @param isEnforced Whether document expiration date in id matching is enforced
      */
-    public void setExpirationDate(Boolean isEnforced) {
+    public void setExpirationDate(@Nullable Boolean isEnforced) {
         expirationDate = isEnforced;
     }
 
@@ -117,6 +141,7 @@ public class EnforceValues {
      * 
      * @return Whether document issuing country in id matching is enforced.
      */
+    @Nullable
     public Boolean isIssuingCountry() {
         return issuingCountry;
     }
@@ -126,7 +151,7 @@ public class EnforceValues {
      * 
      * @param isEnforced Whether document issuing country in id matching is enforced
      */
-    public void setIssuingCountry(Boolean isEnforced) {
+    public void setIssuingCountry(@Nullable Boolean isEnforced) {
         issuingCountry = isEnforced;
     }
 
@@ -135,6 +160,7 @@ public class EnforceValues {
      * 
      * @return Whether nationality in id matching is enforced
      */
+    @Nullable
     public Boolean isNationality() {
         return nationality;
     }
@@ -143,7 +169,7 @@ public class EnforceValues {
      * Set whether nationality in id matching is enforced.
      * 
      */
-    public void setNationality(Boolean isEnforced) {
+    public void setNationality(@Nullable Boolean isEnforced) {
         nationality = isEnforced;
     }
 
@@ -152,6 +178,7 @@ public class EnforceValues {
      * 
      * @return Whether user sex in id matching is enforced
      */
+    @Nullable
     public Boolean isSex() {
         return sex;
     }
@@ -160,7 +187,7 @@ public class EnforceValues {
      * Set whether user sex in id matching is enforced.
      * 
      */
-    public void setSex(Boolean isEnforced) {
+    public void setSex(@Nullable Boolean isEnforced) {
         sex = isEnforced;
     }
 
@@ -171,6 +198,7 @@ public class EnforceValues {
      * @return Number between 1-100, a threshold that name score must be equal or
      *         higher
      */
+    @Nullable
     public Integer getNameScore() {
         return nameScore;
     }
@@ -182,7 +210,7 @@ public class EnforceValues {
      * @param score Number between 1-100, a threshold that name score must be equal
      *              or higher
      */
-    public void setNameScore(Integer score) {
+    public void setNameScore(@Nullable Integer score) {
         nameScore = score;
     }
 

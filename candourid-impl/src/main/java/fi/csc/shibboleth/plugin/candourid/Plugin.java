@@ -24,7 +24,7 @@ import net.shibboleth.profile.module.ModuleException;
 import net.shibboleth.profile.plugin.PluginException;
 
 /**
- * Details about the user profile plugin.
+ * Plugin description.
  */
 public class Plugin extends PropertyDrivenIdPPlugin {
 
