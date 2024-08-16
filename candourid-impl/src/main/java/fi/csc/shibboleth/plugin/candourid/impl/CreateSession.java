@@ -23,8 +23,10 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.function.Function;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.apache.hc.core5.net.URIBuilder;
 import org.opensaml.profile.action.ActionSupport;
@@ -73,6 +75,12 @@ public class CreateSession extends AbstractCandourHttpAuthenticationAction {
     private CandourInvitationRequestPayload payload;
 
     /**
+     * Optional strategy used to create CandourInvitationRequestPayload.
+     */
+    @Nullable
+    private Function<ProfileRequestContext, CandourInvitationRequestPayload> candourInvitationRequestPayloadStrategy;
+
+    /**
      * Set the payload to send to Candour.
      * 
      * @param content the payload to send to Candour. Implement a strategy to set it
@@ -81,6 +89,17 @@ public class CreateSession extends AbstractCandourHttpAuthenticationAction {
         checkSetterPreconditions();
         assert content != null;
         payload = content;
+    }
+
+    /**
+     * Set optional strategy used to create CandourInvitationRequestPayload.
+     * 
+     * @param strategy Optional strategy used to create
+     *                 CandourInvitationRequestPayload
+     */
+    public void setCandourInvitationRequestPayloadStrategy(
+            @Nullable Function<ProfileRequestContext, CandourInvitationRequestPayload> strategy) {
+        candourInvitationRequestPayloadStrategy = strategy;
     }
 
     @Override
@@ -99,7 +118,10 @@ public class CreateSession extends AbstractCandourHttpAuthenticationAction {
 
         CandourInvitationRequest message = new CandourInvitationRequest(getCandouridURI(), getClientPublicKey(),
                 getClientHmacKey());
-        message.setPayload(payload);
+        CandourInvitationRequestPayload dynamicPayload = candourInvitationRequestPayloadStrategy != null
+                ? candourInvitationRequestPayloadStrategy.apply(profileRequestContext)
+                : null;
+        message.setPayload(dynamicPayload != null ? dynamicPayload : payload);
         String uri = buildCallbackUri();
         if (uri == null) {
             ActionSupport.buildEvent(profileRequestContext, EventIds.INVALID_PROFILE_CTX);

@@ -35,7 +35,8 @@
         p:candouridURI="%{candour.apiURI}"
         p:clientPublicKey="%{candour.clientPublicKey}"
         p:clientHmacKey="%{candour.clientHmacKey}"
-        p:payload-ref="CandourInvitationRequestPayload" />
+        p:payload-ref="CandourInvitationRequestPayload"
+        p:candourInvitationRequestPayloadStrategy="#{getObject('candour.invitationRequestPayloadStrategy')}" />
 
     <bean id="ExtractAuthenticationResponse"
         class="fi.csc.shibboleth.plugin.candourid.impl.ExtractAuthenticationResponse" scope="prototype"
