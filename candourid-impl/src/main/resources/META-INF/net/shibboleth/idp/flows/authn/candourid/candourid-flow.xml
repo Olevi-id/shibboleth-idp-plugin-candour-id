@@ -52,10 +52,7 @@
     <global-transitions>        
         <!-- Route everything out as a graceful failure to allow subsequent options to run. -->
         <transition on="#{!'proceed'.equals(currentEvent.id)}" to="ReselectFlow">
-           <!--             
-           <evaluate expression="WriteAuditLogInTransition"/>
            <evaluate expression="T(org.opensaml.core.metrics.MetricsSupport).getMetricRegistry().counter('fi.csc.shibboleth.plugin.candourid.failures').inc()" />
-           -->
         </transition>
     </global-transitions>
 
