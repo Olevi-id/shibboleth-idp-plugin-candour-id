@@ -57,9 +57,10 @@ import net.shibboleth.shared.primitive.LoggerFactory;
  * @event {@link fi.csc.shibboleth.plugin.candourid.CandourEventIds.CANDOUR_API_RESP_FAILURE}
  * @event {@link fi.csc.shibboleth.plugin.candourid.CandourEventIds.CANDOUR_API_RESP_MALFORMED}
  * @post {@link CandourContext#getInvitationResponse()} returns invitation
- *       response.
- * @post {@link CandourContext#getAuthenticationUri()} returns authentication
- *       uri.
+ *       response in success case.
+ * @post {@link CandourContext#getAuthenticationUri()} returns uri for external
+ *       redirect.
+ * 
  */
 public class CreateSession extends AbstractCandourHttpAuthenticationAction {
 
@@ -102,6 +103,7 @@ public class CreateSession extends AbstractCandourHttpAuthenticationAction {
         String uri = buildCallbackUri();
         if (uri == null) {
             ActionSupport.buildEvent(profileRequestContext, EventIds.INVALID_PROFILE_CTX);
+            candourContext.setAuthenticationUri(buildErrorProceedUri());
             return;
         }
         message.getPayload().setCallbackUrl(buildCallbackUri());
@@ -109,15 +111,18 @@ public class CreateSession extends AbstractCandourHttpAuthenticationAction {
         CandourResponse response = null;
         try {
             response = executeHttpRequest(message.toHttpRequest());
-        } catch (IOException | InvalidKeyException | NoSuchAlgorithmException | IllegalStateException | URISyntaxException e) {
+        } catch (IOException | InvalidKeyException | NoSuchAlgorithmException | IllegalStateException
+                | URISyntaxException e) {
             log.error("{} Exception occurred", getLogPrefix(), e);
             ActionSupport.buildEvent(profileRequestContext, CandourEventIds.CANDOUR_API_COMM_FAILURE);
+            candourContext.setAuthenticationUri(buildErrorProceedUri());
             return;
         }
         if (!response.indicateSuccess()) {
             log.error("{} Candour invitation response indicates error. Status code {}, payload {}", getLogPrefix(),
                     response.getCode(), response.getPayload());
             ActionSupport.buildEvent(profileRequestContext, CandourEventIds.CANDOUR_API_RESP_FAILURE);
+            candourContext.setAuthenticationUri(buildErrorProceedUri());
             return;
         }
         // Parse success response
@@ -127,10 +132,20 @@ public class CreateSession extends AbstractCandourHttpAuthenticationAction {
         } catch (JsonProcessingException e) {
             log.error("{} Candour response parsing failed.", getLogPrefix(), e);
             ActionSupport.buildEvent(profileRequestContext, CandourEventIds.CANDOUR_API_RESP_MALFORMED);
+            candourContext.setAuthenticationUri(buildErrorProceedUri());
             return;
         }
         candourContext.setInvitationResponse(response.getPayload());
         candourContext.setAuthenticationUri(payload.getRedirectUrl());
+    }
+
+    /**
+     * We build error proceed uri that will lead external redirect to next action.
+     * 
+     * @return uri directing to next action
+     */
+    private String buildErrorProceedUri() {
+        return candourContext.getCallbackUri().replaceFirst("idp/profile/", "");
     }
 
     /**

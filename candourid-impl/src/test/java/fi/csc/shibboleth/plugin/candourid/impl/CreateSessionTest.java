@@ -55,6 +55,7 @@ public class CreateSessionTest {
         src = new RequestContextBuilder().buildRequestContext();
         prc = new WebflowRequestContextProfileRequestContextLookup().apply(src);
         ctx = (CandourContext) prc.addSubcontext(new AuthenticationContext()).addSubcontext(new CandourContext());
+        ctx.setCallbackUri("http://example.com?key=e1s1&_eventId_proceed=1");
         action = new CreateSession();
         action.setCandouridURI("https://example.com/api");
         action.setClientPublicKey("publicKey");

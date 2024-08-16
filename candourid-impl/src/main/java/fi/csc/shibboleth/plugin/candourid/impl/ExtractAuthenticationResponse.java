@@ -126,7 +126,9 @@ public class ExtractAuthenticationResponse extends AbstractCandourAuthentication
         HttpServletRequest request = getHttpServletRequestSupplier().get();
         String status = request.getParameter(statusParameter);
         if (status == null || !status.equals(statusSuccessValue)) {
-            log.error("{} Response status is '{}', not indicating success ", getLogPrefix(), status);
+            log.error(
+                    "{} Response status is '{}', not indicating success. Actual error may have happened in previous action.",
+                    getLogPrefix(), status);
             String eventId = status != null ? mappedStatuses.get(status)
                     : CandourEventIds.CANDOUR_REDIRECT_RESP_MALFORMED;
             ActionSupport.buildEvent(profileRequestContext,
