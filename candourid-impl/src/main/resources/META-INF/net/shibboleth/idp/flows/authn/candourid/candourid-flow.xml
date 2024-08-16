@@ -27,11 +27,11 @@
     <action-state id="ExtractAuthenticationResponse">
         <evaluate expression="ExtractAuthenticationResponse" />
         <evaluate expression="GetUserClaims" />
+        <evaluate expression="ValidateInvitationLink" />
         <evaluate expression="'proceed'" />
         <transition on="proceed" to="FinalizeResponse" />
     </action-state>
 
-    <!-- TBD We need here a action that still validates user claims response, namely invitation link! -->
 
     <action-state id="FinalizeResponse">
        <evaluate expression="ValidateAuthentication" />

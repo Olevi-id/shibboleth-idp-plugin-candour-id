@@ -61,9 +61,14 @@
         p:candouridURI="%{candour.apiURI}"
         p:clientPublicKey="%{candour.clientPublicKey}"
         p:clientHmacKey="%{candour.clientHmacKey}" />
+        
+    <bean id="ValidateInvitationLink"
+        class="fi.csc.shibboleth.plugin.candourid.impl.ValidateInvitationLink" scope="prototype"
+        p:invitationLinkClaim="%{candour.validation.invitationLinkClaim:invitationLink}"
+        p:httpServletRequestSupplier-ref="shibboleth.HttpServletRequestSupplier" />
 
     <bean id="candour.auth.principal.ClaimSourceIds" parent="shibboleth.CommaDelimStringArray"
-        c:_0="#{'%{candour.auth.principal.ClaimSourceIds}}'.trim()}" />
+        c:_0="#{'%{candour.auth.principal.ClaimSourceIds}'.trim()}" />
 
     <bean id="ValidateAuthentication"
         class="fi.csc.shibboleth.plugin.candourid.impl.ValidateAuthentication" scope="prototype"

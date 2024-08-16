@@ -103,8 +103,9 @@ public class ExtractAuthenticationResponse extends AbstractCandourAuthentication
      * 
      * @param parameter Name of the session id parameter
      */
-    public void setSessionIdParameter(String parameter) {
+    public void setSessionIdParameter(@Nonnull String parameter) {
         checkSetterPreconditions();
+        assert parameter != null;
         sessionIdParameter = parameter;
     }
 

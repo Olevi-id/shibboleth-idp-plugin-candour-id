@@ -73,6 +73,13 @@ public final class CandourEventIds {
     @Nonnull
     @NotEmpty
     public static final String CANDOUR_REDIRECT_RESP_CANCELLED_U_ID = "CandourRedirectRespCancelledUId";
+    
+    /**
+     * Candour user claims validation of original invite link failed.
+     */
+    @Nonnull
+    @NotEmpty
+    public static final String CANDOUR_INVITE_LINK_VALIDATION_FAILURE = "CandourInviteLinkValidationFailure";
 
     /**
      * Constructor.
