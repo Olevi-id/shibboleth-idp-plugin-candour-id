@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024-2025 CSC- IT Center for Science, www.csc.fi
+ * Copyright (c) 2025 CSC- IT Center for Science, www.csc.fi
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,10 +20,10 @@ import java.net.URI;
 import org.springframework.http.HttpMethod;
 
 /**
- * Class to create Candour result request.
+ * Class to create Candour delete request.
  *
  */
-public class CandourResultRequest extends AbstractCandourRequest<String> {
+public class CandourDeleteRequest extends AbstractCandourRequest<String> {
 
     /**
      * Constructor.
@@ -32,8 +32,8 @@ public class CandourResultRequest extends AbstractCandourRequest<String> {
      * @param clientPublicKey Client public key
      * @param clientHmacKey   Client hmac key
      */
-    public CandourResultRequest(final URI apiUri, final String clientPublicKey, final String clientHmacKey) {
-        super(apiUri, clientPublicKey, clientHmacKey, HttpMethod.GET);
+    public CandourDeleteRequest(final URI apiUri, final String clientPublicKey, final String clientHmacKey) {
+        super(apiUri, clientPublicKey, clientHmacKey, HttpMethod.DELETE, false);
     }
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 CSC- IT Center for Science, www.csc.fi
+ * Copyright (c) 2024-2025 CSC- IT Center for Science, www.csc.fi
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ public class CandourResponseHandler implements HttpClientResponseHandler<Candour
     @Override
     public CandourResponse handleResponse(ClassicHttpResponse response) throws HttpException, IOException {
         return new CandourResponse(response.getCode(),
-                HttpClientSupport.toString(response.getEntity(), "UTF-8", 65536));
+                response.getEntity() != null ? HttpClientSupport.toString(response.getEntity(), "UTF-8", 65536) : null);
     }
 
 }

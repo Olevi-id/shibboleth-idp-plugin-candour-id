@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 CSC- IT Center for Science, www.csc.fi
+ * Copyright (c) 2024-2025 CSC- IT Center for Science, www.csc.fi
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -54,6 +54,9 @@ abstract class AbstractCandourRequest<T> {
     /** Http method to use. */
     private HttpMethod httpMethod;
 
+    /** Whether to include 'application/json' content type header. */
+    private final boolean applicationJSONHeader;
+
     /**
      * Constructor.
      * 
@@ -68,6 +71,26 @@ abstract class AbstractCandourRequest<T> {
         hmacKey = clientHmacKey;
         uri = apiUri;
         httpMethod = method;
+        applicationJSONHeader = true;
+    }
+
+    /**
+     * Constructor.
+     * 
+     * @param apiUri          API uri
+     * @param clientPublicKey Client public key
+     * @param clientHmacKey   Client hmac key
+     * @param method          Http method to use
+     * @param appJSONHeader   Whether to include 'application/json' content type
+     *                        header
+     */
+    public AbstractCandourRequest(final URI apiUri, final String clientPublicKey, final String clientHmacKey,
+            HttpMethod method, boolean appJSONHeader) {
+        publicKey = clientPublicKey;
+        hmacKey = clientHmacKey;
+        uri = apiUri;
+        httpMethod = method;
+        applicationJSONHeader = appJSONHeader;
     }
 
     /**
@@ -132,12 +155,19 @@ abstract class AbstractCandourRequest<T> {
         ClassicRequestBuilder rb = null;
         if (httpMethod == HttpMethod.GET) {
             rb = ClassicRequestBuilder.get().setUri(new URI(uri.toString() + "/" + freezedPayload))
-                    .setHeader("Content-Type", "application/json").setHeader("X-AUTH-CLIENT", publicKey)
-                    .setHeader("X-HMAC-SIGNATURE", calculateHmac(freezedPayload)).setCharset(Charset.forName("UTF-8"));
-        } else {
-            rb = ClassicRequestBuilder.post().setUri(uri).setHeader("Content-Type", "application/json")
                     .setHeader("X-AUTH-CLIENT", publicKey).setHeader("X-HMAC-SIGNATURE", calculateHmac(freezedPayload))
-                    .setCharset(Charset.forName("UTF-8")).setEntity(freezedPayload, ContentType.APPLICATION_JSON);
+                    .setCharset(Charset.forName("UTF-8"));
+        } else if (httpMethod == HttpMethod.DELETE) {
+            rb = ClassicRequestBuilder.delete().setUri(new URI(uri.toString() + "/" + freezedPayload))
+                    .setHeader("X-AUTH-CLIENT", publicKey).setHeader("X-HMAC-SIGNATURE", calculateHmac(freezedPayload))
+                    .setCharset(Charset.forName("UTF-8"));
+        } else {
+            rb = ClassicRequestBuilder.post().setUri(uri).setHeader("X-AUTH-CLIENT", publicKey)
+                    .setHeader("X-HMAC-SIGNATURE", calculateHmac(freezedPayload)).setCharset(Charset.forName("UTF-8"))
+                    .setEntity(freezedPayload, ContentType.APPLICATION_JSON);
+        }
+        if (applicationJSONHeader) {
+            rb.setHeader("Content-Type", "application/json");
         }
         return rb.build();
     }
