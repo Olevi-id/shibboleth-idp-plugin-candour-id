@@ -6,7 +6,7 @@
   <parent>
     <groupId>fi.csc.shibboleth.plugin.candourid</groupId>
     <artifactId>idp-plugin-candourid</artifactId>
-    <version>0.9.0</version>
+    <version>1.0.0</version>
   </parent>
   <name>Shibboleth IdP :: Plugins :: Candour ID Implementation</name>
   <description>Candour ID authentication flow implementation.</description>
