@@ -7,7 +7,7 @@
   <description>An IdP plugin implementing Candour ID authentication flow.</description>
   <groupId>fi.csc.shibboleth.plugin.candourid</groupId>
   <artifactId>idp-plugin-candourid</artifactId>
-  <version>0.9.0</version>
+  <version>1.0.0</version>
   <packaging>pom</packaging>
   <properties>
     <maven.compiler.source>17</maven.compiler.source>
