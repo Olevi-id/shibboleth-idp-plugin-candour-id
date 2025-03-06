@@ -33,6 +33,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import fi.csc.shibboleth.plugin.candourid.CandourEventIds;
 import fi.csc.shibboleth.plugin.candourid.context.CandourContext;
+import fi.csc.shibboleth.plugin.candourid.messaging.impl.CandourDeleteRequest;
 import fi.csc.shibboleth.plugin.candourid.messaging.impl.CandourResponse;
 import fi.csc.shibboleth.plugin.candourid.messaging.impl.CandourResultRequest;
 import net.shibboleth.idp.authn.context.AuthenticationContext;
@@ -71,12 +72,14 @@ public class GetUserClaims extends AbstractCandourHttpAuthenticationAction {
                 | URISyntaxException e) {
             log.error("{} Exception occurred", getLogPrefix(), e);
             ActionSupport.buildEvent(profileRequestContext, CandourEventIds.CANDOUR_API_COMM_FAILURE);
+            deleteResult();
             return;
         }
         if (!response.indicateSuccess()) {
-            log.error("{} Candour invitation response indicates error. Status code {}, payload {}", getLogPrefix(),
+            log.error("{} Candour result request response indicates error. Status code {}, payload {}", getLogPrefix(),
                     response.getCode(), response.getPayload());
             ActionSupport.buildEvent(profileRequestContext, CandourEventIds.CANDOUR_API_RESP_FAILURE);
+            deleteResult();
             return;
         }
         try {
@@ -86,7 +89,31 @@ public class GetUserClaims extends AbstractCandourHttpAuthenticationAction {
         } catch (JsonProcessingException e) {
             log.error("{} Candour response parsing failed.", getLogPrefix(), e);
             ActionSupport.buildEvent(profileRequestContext, CandourEventIds.CANDOUR_API_RESP_MALFORMED);
+            deleteResult();
             return;
+        }
+        deleteResult();
+
+    }
+
+    /**
+     * Instructs Candour to delete the result of authentication.
+     */
+    private void deleteResult() {
+        CandourDeleteRequest message = new CandourDeleteRequest(getCandouridURI(), getClientPublicKey(),
+                getClientHmacKey());
+        message.setPayload(candourContext.getSessionId());
+        CandourResponse response = null;
+        try {
+            response = executeHttpRequest(message.toHttpRequest());
+        } catch (InvalidKeyException | NoSuchAlgorithmException | IllegalStateException | IOException
+                | URISyntaxException e) {
+            log.error("{} Exception occurred", getLogPrefix(), e);
+            return;
+        }
+        if (!response.indicateSuccess()) {
+            log.error("{} Candour delete response indicates error. Status code {}, payload {}", getLogPrefix(),
+                    response.getCode(), response.getPayload());
         }
 
     }
