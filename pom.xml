@@ -29,6 +29,13 @@
       <developerConnection>scm:git:git@github.com:Olevi-id/shibboleth-idp-plugin-candour-id.git</developerConnection>
       <tag>${project.artifactId}${project.version}</tag>
   </scm>
+  <distributionManagement>
+      <repository>
+          <id>github</id>
+          <name>GitHub Packages</name>
+          <url>https://maven.pkg.github.com/olevi-id/shibboleth-idp-plugin-candour-id</url>
+      </repository>
+  </distributionManagement>
   <repositories>
     <repository>
       <id>shib-release</id>
