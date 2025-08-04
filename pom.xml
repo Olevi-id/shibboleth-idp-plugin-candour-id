@@ -25,6 +25,10 @@
     <spring.groupId>org.springframework</spring.groupId>
     <checkstyle.configLocation>${project.basedir}/checkstyle.xml</checkstyle.configLocation>
   </properties>
+  <scm>
+      <developerConnection>scm:git:git@github.com:Olevi-id/shibboleth-idp-plugin-candour-id.git</developerConnection>
+      <tag>${project.artifactId}${project.version}</tag>
+  </scm>
   <repositories>
     <repository>
       <id>shib-release</id>
